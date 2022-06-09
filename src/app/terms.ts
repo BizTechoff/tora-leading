@@ -10,6 +10,9 @@ export const terms = {
     hello: "Hello",
     invalidOperation: "Invalid Operation",
     admin: 'admin',
+    manager:'מנהל',
+    shluch:'שליח',
+    avrech:'אברך',
     yes: 'Yes',
     no: 'No',
     ok: 'Ok',
@@ -24,3 +27,13 @@ export const terms = {
     passwordDeleteConfirmOf: "Are you sure you want to delete the password of",
     rememberOnThisDevice: "Remember on this device?"
 }
+
+declare module 'remult' {
+    export interface UserInfo {
+        isAdmin: boolean;
+        isManager: boolean;
+        isShluch: boolean;
+        isAvrech: boolean;
+    }
+}
+

@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 
 
 import { UsersComponent } from './users/users.component';
-import { AdminGuard } from "./users/AdminGuard";
+import { AdminGuard } from "./users/AuthGuard";
 import { ShowDialogOnErrorErrorHandler } from './common/dialog';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './auth.service';

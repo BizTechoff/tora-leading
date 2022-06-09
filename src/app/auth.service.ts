@@ -6,6 +6,7 @@ import { Remult } from 'remult';
     providedIn: 'root'
 })
 export class AuthService {
+
     constructor(private remult: Remult) {
         const token = AuthService.fromStorage();
         if (token) {
@@ -13,7 +14,7 @@ export class AuthService {
         }
     }
 
-    setAuthToken(token: string | null, rememberOnThisDevice = false) {
+    setAuthToken(token: string | null, rememberOnThisDevice = true) {
         if (token) {
             this.remult.setUser(new JwtHelperService().decodeToken(token));
             sessionStorage.setItem(AUTH_TOKEN_KEY, token);

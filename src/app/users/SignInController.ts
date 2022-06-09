@@ -1,8 +1,8 @@
+import jwt from 'jsonwebtoken';
 import { BackendMethod, Controller, ControllerBase, Fields, UserInfo, Validators } from "remult";
 import { terms } from "../terms";
 import { Roles } from "./roles";
 import { User } from "./user";
-import jwt from 'jsonwebtoken';
 
 @Controller('signIn')
 export class SignInController extends ControllerBase {
@@ -46,10 +46,27 @@ export class SignInController extends ControllerBase {
             result = {
                 id: u.id,
                 roles: [],
-                name: u.name
+                name: u.name,
+                isAdmin: false,
+                isManager: false,
+                isShluch: false,
+                isAvrech: false
             };
             if (u.admin) {
+                result.isAdmin = true
                 result.roles.push(Roles.admin);
+            }
+            else if (u.manager) {
+                result.isManager = true
+                result.roles.push(Roles.manager);
+            }
+            else if (u.shluch) {
+                result.isShluch = true
+                result.roles.push(Roles.shluch);
+            }
+            else if (u.avrech) {
+                result.isAvrech = true
+                result.roles.push(Roles.avrech);
             }
         }
 
