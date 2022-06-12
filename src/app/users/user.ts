@@ -2,7 +2,7 @@ import { Allow, BackendMethod, Entity, Fields, IdEntity, isBackend, Validators }
 import { terms } from "../terms";
 import { Roles } from './roles';
 
-@Entity<User>("Users", {
+@Entity<User>("users", {
     allowApiRead: Allow.authenticated,
     allowApiUpdate: Allow.authenticated,
     allowApiDelete: Roles.admin,
