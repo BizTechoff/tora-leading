@@ -4,12 +4,7 @@ import { Remult } from "remult";
 
 import { YesNoQuestionComponent } from "./yes-no-question/yes-no-question.component";
 import { openDialog } from "@remult/angular";
-import { terms } from "../terms";
-
-
-
-
-
+import { terms } from "../../terms";
 
 @Injectable()
 export class DialogService {
@@ -43,6 +38,7 @@ export class DialogService {
         return await this.yesNoQuestion(terms.areYouSureYouWouldLikeToDelete + " " + of + "?");
     }
 }
+
 @Injectable()
 export class ShowDialogOnErrorErrorHandler extends ErrorHandler {
     constructor(private dialog: DialogService, private zone: NgZone) {

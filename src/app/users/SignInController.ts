@@ -32,41 +32,43 @@ export class SignInController extends ControllerBase {
             if (await userRepo.count() === 0) { //first ever user is the admin
                 u = await userRepo.insert({
                     name: this.user,
-                    admin: true
+                    admin: true,
+                    mobile: process.env['ADMIN_MOBILE']
                 })
             }
         }
-        if (u)
+        if (u) {
             if (!u.password) { // if the user has no password defined, the first password they use is their password
                 u.hashAndSetPassword(this.password);
                 await u.save();
             }
 
-        if (await u.passwordMatches(this.password)) {
-            result = {
-                id: u.id,
-                roles: [],
-                name: u.name,
-                isAdmin: false,
-                isManager: false,
-                isShluch: false,
-                isAvrech: false
-            };
-            if (u.admin) {
-                result.isAdmin = true
-                result.roles.push(Roles.admin);
-            }
-            else if (u.manager) {
-                result.isManager = true
-                result.roles.push(Roles.manager);
-            }
-            else if (u.shluch) {
-                result.isShluch = true
-                result.roles.push(Roles.shluch);
-            }
-            else if (u.avrech) {
-                result.isAvrech = true
-                result.roles.push(Roles.avrech);
+            if (await u.passwordMatches(this.password)) {
+                result = {
+                    id: u.id,
+                    roles: [],
+                    name: u.name,
+                    isAdmin: false,
+                    isManager: false,
+                    isShluch: false,
+                    isAvrech: false
+                };
+                if (u.admin) {
+                    result.isAdmin = true
+                    result.roles.push(Roles.admin);
+                }
+                else if (u.manager) {
+                    result.isManager = true
+                    result.roles.push(Roles.manager);
+                }
+                else if (u.shluch) {
+                    result.isShluch = true
+                    result.roles.push(Roles.shluch);
+                }
+                else if (u.avrech) {
+                    result.isAvrech = true
+                    result.roles.push(Roles.avrech);
+                }
             }
         }
 

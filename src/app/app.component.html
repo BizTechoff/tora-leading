@@ -1,5 +1,12 @@
-<div style="height:100%;display:flex;flex-direction: column;">
-  <mat-toolbar color="primary" style="flex-shrink: 0;">
+<div style="height: 100%; display: flex; flex-direction: column;">
+  <div class="top-left" (click)="this.showRemultUser($event)">
+    {{ 'בס"ד' }}
+  </div>
+  <mat-toolbar color="primary" style="flex-shrink: 0;
+  background-image: url('/assets/tora.shlema.logo.with.text.png'); 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60% 98%;">
     <button mat-button class="sidenav-toggle" (click)="sidenav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -19,23 +26,31 @@
   <mat-sidenav-container class="app-sidenav-container">
     <mat-sidenav #sidenav class="app-sidenav mat-elevation-z10 no-print" [opened]="!dialogService.isScreenSmall()"
       [mode]="dialogService.isScreenSmall()?'over':'side'">
+      <div style="display:flex; justify-content: center; margin-top: 2%;">
+        <!-- <a href="https://biztechoff.co.il/" target="_blank"> -->
+        <img src="assets/tora.shlema.logo.png" width="150px" title="תורה שלמה - מכון פינגר למנהיגות תורנית" />
+        <!-- </a> -->
+      </div>
       <div style="width:100%;text-align: center">
 
       </div>
-      <h4 *ngIf="remult.authenticated()">{{terms.hello}} {{remult.user.name}}</h4>
+      <h4 style="margin-right: 3px;" *ngIf="remult.authenticated()">{{terms.hello}} {{remult.user.name}}</h4>
       <mat-nav-list role="list">
         <ng-container *ngFor="let m of router.config">
+
+          <mat-divider *ngIf="shouldDisplayRoute(m) && terms.userAccounts === m.path"></mat-divider>
+          
           <mat-list-item *ngIf="shouldDisplayRoute(m)" routerLinkActive="active-route">
             <a matLine [routerLink]="m.path" (click)="routeClicked()">{{routeName(m)}}</a>
           </mat-list-item>
 
-
+          <mat-divider *ngIf="shouldDisplayRoute(m) && terms.currentState === m.path"></mat-divider>
+          
         </ng-container>
       </mat-nav-list>
 
     </mat-sidenav>
     <div class="app-sidenav-content ">
-
 
       <div class="wrapper" style="height:100%">
         <router-outlet></router-outlet>
@@ -44,4 +59,12 @@
     </div>
 
   </mat-sidenav-container>
+
+  <div class="footer" style="font-size: smaller;">
+    <div style="display:flex;flex-direction: row;justify-content: flex-end;">
+      <div style="margin-left: 3px; cursor: pointer;" (click)="openSite('https://biztechoff.co.il')"> {{ 'BizTechoff::v'
+        + terms.appVersion }} </div>
+    </div>
+  </div>
+
 </div>

@@ -2,14 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, Route, ActivatedRoute } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Remult } from 'remult';
-import { DialogService } from './common/dialog';
 import { openDialog, RouteHelperService } from '@remult/angular';
 import { User } from './users/user';
-import { InputAreaComponent } from './common/input-area/input-area.component';
+import { InputAreaComponent } from './common/popup/input-area/input-area.component';
 import { AuthService } from './auth.service';
 import { terms } from './terms';
 import { SignInController } from './users/SignInController';
 import { UpdatePasswordController } from './users/UpdatePasswordController';
+import { DialogService } from './common/popup/dialog';
 
 @Component({
   selector: 'app-root',
@@ -87,7 +87,7 @@ export class AppComponent implements OnInit {
         if (this.activeRoute.firstChild.routeConfig)
           return this.activeRoute.firstChild.routeConfig.path;
       }
-    return 'angular-starter-project';
+    return 'tora-leading';
   }
 
   shouldDisplayRoute(route: Route) {
@@ -101,4 +101,16 @@ export class AppComponent implements OnInit {
     if (this.dialogService.isScreenSmall())
       this.sidenav.close();
   }
+
+  openSite(url:string){
+    window.open(url, '_blank')
+  }
+
+  showRemultUser(e: MouseEvent) {
+    try {
+      if (e.ctrlKey) { alert(JSON.stringify(this.remult.user)) }
+    }
+    catch (err) { console.log(err) }
+  }
+
 }

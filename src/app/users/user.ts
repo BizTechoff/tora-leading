@@ -1,3 +1,4 @@
+import { DataControl } from "@remult/angular/interfaces";
 import { Allow, BackendMethod, Entity, Fields, IdEntity, isBackend, Validators } from "remult";
 import { terms } from "../terms";
 import { Roles } from './roles';
@@ -6,14 +7,25 @@ import { Roles } from './roles';
     allowApiRead: Allow.authenticated,
     allowApiUpdate: Allow.authenticated,
     allowApiDelete: Roles.admin,
-    allowApiInsert: Roles.admin
+    allowApiInsert: Roles.admin,
+    defaultOrderBy: {
+        admin: "desc",
+        manager: "desc",
+        shluch: "desc",
+        avrech: "desc",
+        name: "asc"
+    }
 },
     (options, remult) => {
+        options.allowApiCrud = false
         options.apiPrefilter = () => !remult.user.isAdmin ? { id: remult.user.id } : {};
         options.saving = async (user) => {
             if (isBackend()) {
                 if (user._.isNew()) {
                     user.createDate = new Date();
+                    if (!user.password || user.password.trim().length === 0) {
+                        await user.hashAndSetPassword(process.env['DEFAULT_PASSWORD']!);
+                    }
                 }
             }
         }
@@ -21,17 +33,19 @@ import { Roles } from './roles';
 )
 export class User extends IdEntity {
 
+    @DataControl<User, string>({ width: '118' })
     @Fields.string({
-        validate: [Validators.required],
+        validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')],
         caption: terms.username
     })
     name = '';
 
+    @DataControl<User, string>({ width: '98' })
     @Fields.string({
-        caption: 'סלולרי',
-        validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend]
+        validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')],
+        caption: terms.mobile
     })
-    mobile = ''
+    mobile = '';
 
     @Fields.string({
         caption: 'טלפון'//,
@@ -53,24 +67,66 @@ export class User extends IdEntity {
     })
     createDate = new Date();
 
+
+
+    @DataControl<User, boolean>({
+        width: '88',
+        valueChange: (row, col) => {
+            if (col.value) {
+                row.manager = false
+                row.shluch = false
+                row.avrech = false
+            }
+        }
+    })
     @Fields.boolean({
         allowApiUpdate: Roles.admin,
         caption: terms.admin
     })
     admin = false;
 
+    @DataControl<User, boolean>({
+        width: '88',
+        valueChange: (row, col) => {
+            if (col.value) {
+                row.admin = false
+                row.shluch = false
+                row.avrech = false
+            }
+        }
+    })
     @Fields.boolean({
         allowApiUpdate: Roles.admin,
         caption: terms.manager
     })
     manager = false;
 
+    @DataControl<User, boolean>({
+        width: '88',
+        valueChange: (row, col) => {
+            if (col.value) {
+                row.admin = false
+                row.manager = false
+                row.avrech = false
+            }
+        }
+    })
     @Fields.boolean({
         allowApiUpdate: Roles.admin,
         caption: terms.shluch
     })
     shluch = false;
 
+    @DataControl<User, boolean>({
+        width: '88',
+        valueChange: (row, col) => {
+            if (col.value) {
+                row.admin = false
+                row.manager = false
+                row.shluch = false
+            }
+        }
+    })
     @Fields.boolean({
         allowApiUpdate: Roles.admin,
         caption: terms.avrech

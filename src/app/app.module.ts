@@ -16,11 +16,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RemultModule } from '@remult/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DialogService } from './common/dialog';
-import { InputAreaComponent } from './common/input-area/input-area.component';
-import { YesNoQuestionComponent } from './common/yes-no-question/yes-no-question.component';
+import { DialogService } from './common/popup/dialog';
+import { InputAreaComponent } from './common/popup/input-area/input-area.component';
+import { YesNoQuestionComponent } from './common/popup/yes-no-question/yes-no-question.component';
+import { AvrechimComponent } from './core/avrech/avrechim/avrechim.component';
+import { ShluchDetailsComponent } from './core/shluch/shluch-details/shluch-details.component';
+import { ShluchimComponent } from './core/shluch/shluchim/shluchim.component';
 import { HomeComponent } from './home/home.component';
-import { AdminGuard } from "./users/AuthGuard";
+import { AdminGuard, AvrechGuard, ManagerGuard, ManagerOrAdminGuard, ShluchGuard } from "./users/AuthGuard";
 import { UsersComponent } from './users/users.component';
 
 @NgModule({
@@ -29,7 +32,10 @@ import { UsersComponent } from './users/users.component';
     UsersComponent,
     HomeComponent,
     YesNoQuestionComponent,
-    InputAreaComponent
+    InputAreaComponent,
+    ShluchimComponent,
+    AvrechimComponent,
+    ShluchDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +55,7 @@ import { UsersComponent } from './users/users.component';
     MatMenuModule,
     RemultModule
   ],
-  providers: [DialogService, AdminGuard],
+  providers: [DialogService, AdminGuard, ManagerGuard, ShluchGuard, AvrechGuard, ManagerOrAdminGuard],
   bootstrap: [AppComponent],
   entryComponents: [YesNoQuestionComponent, InputAreaComponent]
 })

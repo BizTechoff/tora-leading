@@ -2,29 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { openDialog } from '@remult/angular';
 import { DataControl, GridSettings } from '@remult/angular/interfaces';
 import { Fields, getFields, Remult } from 'remult';
-import { DialogService } from '../common/popup/dialog';
-import { InputAreaComponent } from '../common/popup/input-area/input-area.component';
-import { terms } from '../terms';
-import { User } from './user';
+import { DialogService } from '../../../common/popup/dialog';
+import { InputAreaComponent } from '../../../common/popup/input-area/input-area.component';
+import { terms } from '../../../terms';
+import { User } from '../../../users/user';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: 'app-shluchim',
+  templateUrl: './shluchim.component.html',
+  styleUrls: ['./shluchim.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class ShluchimComponent implements OnInit {
   constructor(private dialog: DialogService, public remult: Remult) {
   }
   get $() { return getFields(this, this.remult) };
   terms = terms
 
-  @DataControl<UsersComponent>({
+  @DataControl<ShluchimComponent>({
     valueChange: async (row, col) => await row?.refresh()
   })
   @Fields.string({ caption: 'חיפוש משתמש' })
   search = ''
 
   users = new GridSettings(this.remult.repo(User), {
+    where: { shluch: true },
     allowCrud: false,
     numOfColumnsInGrid: 10,
 
@@ -34,12 +35,8 @@ export class UsersComponent implements OnInit {
     columnSettings: users => [
       users.name,
       users.mobile,
-      users.admin,
-      users.manager,
-      users.shluch,
-      users.avrech//,
-      // users.email,
-      // users.phone
+      users.email,
+      users.phone
     ],
     gridButtons: [{
       icon: 'refresh',
@@ -49,28 +46,8 @@ export class UsersComponent implements OnInit {
     rowButtons: [
       {
         icon: 'edit',
-        name: 'עדכון משתמש',
+        name: 'עדכון שליח',
         click: async (row) => await this.upsertUser(row?.id)
-      },
-      {
-        icon: 'password',
-        name: terms.resetPassword,
-        click: async () => {
-          if (await this.dialog.yesNoQuestion(terms.passwordDeleteConfirmOf + this.users.currentRow.name)) {
-            await this.users.currentRow.resetPassword();
-            this.dialog.info(terms.passwordDeletedSuccessful);
-          };
-        }
-      },
-      {
-        icon: 'send_to_mobile',
-        name: terms.sendSigninDetails,
-        click: async () => {
-          let yes = await this.dialog.yesNoQuestion('לשלוח פרטי התחברות ל: ' + this.users.currentRow.name)
-          if (yes) {
-            this.dialog.info('פרטי התחברות נשלחו בהצלחה');
-          }
-        }
       }
     ],
     confirmDelete: async (h) => {
@@ -89,15 +66,16 @@ export class UsersComponent implements OnInit {
     let u: User
     let title = ''
     if (id?.trim().length) {
-      title = 'עדכון משתמש'
+      title = 'עדכון שליח'
       u = await this.remult.repo(User).findId(id, { useCache: false })
       if (!u) {
         throw `Error user id: '${id}'`
       }
     }
     else {
-      title = 'הוספת משתמש'
+      title = 'הוספת שליח'
       u = this.remult.repo(User).create()
+      u.shluch = true
     }
 
     let changed = await openDialog(InputAreaComponent,
@@ -106,10 +84,8 @@ export class UsersComponent implements OnInit {
         fields: () => [
           u.$.name,
           u.$.mobile,
-          u.$.admin,
-          u.$.manager,
-          u.$.shluch,
-          u.$.avrech
+          u.$.email,
+          u.$.phone
         ],
         ok: async () => {
           await u.save()
