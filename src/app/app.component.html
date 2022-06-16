@@ -2,19 +2,15 @@
   <div class="top-left" (click)="this.showRemultUser($event)">
     {{ 'בס"ד' }}
   </div>
-  <mat-toolbar color="primary" style="flex-shrink: 0;
-  background-image: url('/assets/tora.shlema.logo.with.text.png'); 
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 60% 98%;">
-    <button mat-button class="sidenav-toggle" (click)="sidenav.toggle()">
+  <mat-toolbar color="primary" style="flex-shrink: 0;">
+    <button *ngIf="remult.authenticated()" mat-button class="sidenav-toggle" (click)="sidenav.toggle()" >
       <mat-icon>menu</mat-icon>
     </button>
     <span class="toolbar-title">{{currentTitle()}}</span>
     <ng-container *ngIf="!remult.authenticated()">
       <button mat-flat-button color="primary" (click)="signIn()">{{terms.signIn}}</button>
     </ng-container>
-    <ng-container *ngIf="remult.authenticated()">
+    <ng-container *ngIf="remult.authenticated()" >
       <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">{{remult.user.name}}</button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="updateInfo()">{{terms.updateInfo}}</button>

@@ -32,8 +32,10 @@ export const terms = {
     avrechim: 'אברכים',
     userAccounts: 'משתמשים',
     currentState: 'תצוגת מצב',
-    myDetails:'פרטים שלי',
+    myDetails: 'פרטים שלי',
+    myLectures: 'נושאים שלי',
     yes: 'כן',
+    update: 'עדכן',
     no: 'לא',
     ok: 'אישור',
     areYouSureYouWouldLikeToDelete: "בטוח למחוק את ",
@@ -49,6 +51,7 @@ export const terms = {
     addShluch: 'הוספת שליח',
     addAvrech: 'הוספת אברך',
     addCourse: 'הוספת קורס',
+    addLecture: 'הוספת נושא',
     sendSigninDetails: 'שלח פרטי התחברות'
 }
 

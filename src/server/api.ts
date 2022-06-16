@@ -1,16 +1,18 @@
+import { config } from 'dotenv';
 import { createPostgresConnection } from 'remult/postgres';
 import { remultExpress } from 'remult/remult-express';
 import { Course } from '../app/core/course/course';
+import { Lecture } from '../app/core/lecture/lecture';
+import { LectureMonth } from '../app/core/lecture/lectureMonth';
 import { Questionnaire } from '../app/core/questionnaire/questionnaire';
 import { SignInController } from '../app/users/SignInController';
 import { UpdatePasswordController } from '../app/users/UpdatePasswordController';
 import { User } from '../app/users/user';
-import { config } from 'dotenv';
 
 config()
 
 export const api = remultExpress({
-    entities: [User, Questionnaire, Course],
+    entities: [User, Questionnaire, Course, Lecture, LectureMonth],
     controllers: [SignInController, UpdatePasswordController],
     dataProvider: async () => {
         // if (process.env['NODE_ENV'] === "production")

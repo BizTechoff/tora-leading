@@ -1,4 +1,4 @@
-<div *ngIf="this.shluch" class="full-page">
+<div class="full-page">
     <div class="header">
         <div style="display: flex; flex-direction: column; justify-content: space-between; ">
             <div style="display: flex; flex-direction: row; justify-content: space-between; ">
@@ -14,21 +14,20 @@
             </div>
         </div>
     </div>
-    <div class="grow-item" style="margin: 5px;">
+    <div *ngIf="this.shluch" class="grow-item" style="margin: 5px;">
         <!-- <data-grid [settings]="users"></data-grid> -->
         <data-control [field]="this.shluch.$.name"></data-control>
         <data-control [field]="this.shluch.$.fname"></data-control>
+        <data-control [field]="this.shluch.$.mobile"></data-control>
         <data-control [field]="this.shluch.$.email"></data-control>
         <data-control [field]="this.shluch.$.marriageDate"></data-control>
         <data-control [field]="this.shluch.$.missionLocation"></data-control>
         <data-control [field]="this.shluch.$.missionDate"></data-control>
-        <data-control [field]="this.shluch.$.mobile"></data-control>
-        <data-control [field]="this.shluch.$.phone"></data-control>
         <data-control [field]="this.shluch.$.remarks"></data-control>
     </div>
     <div class="footer">
         <div style="display: flex; flex-direction: row; justify-content: space-between; ">
-            <button *ngIf="this.shluch._.wasChanged()" style="width: 100%;" mat-raised-button color='primary' (click)="save()">
+            <button style="width: 100%;" mat-raised-button color='primary' (click)="save()">
                 <!-- <mat-icon>add</mat-icon> -->
                 <mat-label> {{ this.terms.update }} </mat-label>
             </button>

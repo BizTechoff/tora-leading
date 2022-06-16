@@ -21,7 +21,7 @@ export class SignInController extends ControllerBase {
     @Fields.boolean({
         caption: terms.rememberOnThisDevice,
     })
-    rememberOnThisDevice = false;
+    rememberOnThisDevice = true;
 
     @BackendMethod({ allowed: true })
     async signIn() {

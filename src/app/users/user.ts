@@ -40,12 +40,25 @@ export class User extends IdEntity {
     })
     name = '';
 
+    @DataControl<User, string>({ width: '118' })
+    @Fields.string({
+        validate: (row, col) => {
+            if (row.shluch) {
+                if (!col || !col.value || col.value.trim().length === 0) {
+                    col.error = 'שדה חובה'
+                }
+            }
+        },
+        caption: 'שם משפחה'
+    })
+    fname = ''
+
     @DataControl<User, string>({ width: '98' })
     @Fields.string({
         validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')],
         caption: terms.mobile
     })
-    mobile = '';
+    mobile = ''
 
     @Fields.string({
         caption: 'טלפון'//,
@@ -53,21 +66,69 @@ export class User extends IdEntity {
     })
     phone = ''
 
-    @Fields.string({
-        caption: 'אימייל'//,
-        // validate: Validators.required.withMessage('שדה חובה')
+    @Fields.string<User>({
+        caption: 'אימייל',
+        validate: (row, col) => {
+            if (row.shluch) {
+                if (!col || !col.value || col.value.trim().length === 0) {
+                    col.error = 'שדה חובה'
+                }
+                else {
+                    let v = col.value.trim().toLowerCase()
+                    if (!v.includes('@')) {
+                        col.error = 'פורמט שגוי'
+                    }
+                    else {
+                        let split = v.split('@')
+                        if (split[0].length < 3) {
+                            col.error = 'לפחות 3 תווים בהתחלה'
+                        }
+                        else if (!split[1].includes('.')) {
+                            col.error = 'פורמט שגוי'
+                        }
+                    }
+                }
+            }
+        }
     })
     email = ''
 
+    @Fields.dateOnly({
+        caption: 'תאריך נישואין',
+        validate: (row, col) => {
+            if (!col || !col.value || col.value.getFullYear() <= 1900) {
+                col.error = 'שדה חובה'
+            }
+        }
+    })
+    marriageDate!: Date
+
+    @Fields.string({
+        caption: 'מיקום השליחות',
+        validate: Validators.required.withMessage('שדה חובה')
+    })
+    missionLocation = ''
+
+    @Fields.dateOnly({
+        caption: 'תאריך יציאה לשליחות',
+        validate: (row, col) => {
+            if (!col || !col.value || col.value.getFullYear() <= 1900) {
+                col.error = 'שדה חובה'
+            }
+        }
+    })
+    missionDate!: Date
+
     @Fields.string({ includeInApi: false })
     password = '';
+
+    @Fields.string({ caption: 'הערות' })
+    remarks = '';
 
     @Fields.date({
         allowApiUpdate: false
     })
     createDate = new Date();
-
-
 
     @DataControl<User, boolean>({
         width: '88',

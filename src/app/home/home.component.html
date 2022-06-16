@@ -1,3 +1,34 @@
-<p>
-  home works!
-</p>
+<div class="full-page">
+  <div class="grow-item">
+    <div style="display:flex;flex-direction: column;flex-grow: 1;justify-content: space-between;">
+      
+      <div style="display:flex;justify-content: center;">
+        <img style="width: 100%;" src="assets/tora.shlema.logo.with.text.png" title="מנהיגות תורנית" />
+      </div>
+      <h2 style="display:flex;justify-content: center;">שלום {{ remult.authenticated() ? remult.user.name : ' - ' }}
+        <span style="color: green;">{{ remult.authenticated() ? '' : 'לכניסה יש ללחוץ למעלה' }}</span>
+      </h2>
+      <h2 style="display:flex;justify-content: center;">חדשות שלנו..</h2>
+
+      <!-- <div style="display:flex;justify-content: center;">
+        <strong>
+          <p style="color: green;">הפריטים שלנו</p>
+        </strong>
+      </div> -->
+      <!-- <div>
+        <p style="color: green;"><strong>
+            <h2>אנו כאן לכל שאלה</h2>
+          </strong></p>
+      </div> -->
+
+      <!-- <div style="display:flex;justify-content: center;">
+        <img src="assets/home.jpeg" title="מי אנחנו" />
+      </div> -->
+    </div>
+  </div>
+  <!-- <div class="footer">
+    <div style="display:flex;justify-content: center;">
+      <img style="width: 100%;" src="assets/tora.shlema.logo.with.text.png" title="מנהיגות תורנית" />
+    </div>
+  </div> -->
+</div>

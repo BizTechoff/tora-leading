@@ -71,6 +71,11 @@ export class UsersComponent implements OnInit {
             this.dialog.info('פרטי התחברות נשלחו בהצלחה');
           }
         }
+      },
+      {
+        icon: 'delete',
+        name: 'הסר משתמש',
+        click: async (row) => await this.deleteUser(row.id, row.name)
       }
     ],
     confirmDelete: async (h) => {
@@ -83,6 +88,14 @@ export class UsersComponent implements OnInit {
 
   async refresh() {
     await this.users.reloadData()
+  }
+
+  async deleteUser(id = '', name = '') {
+    let yes = await this.dialog.yesNoQuestion('להסיר את המשתמש ' + name)
+    if (yes) {
+      await this.remult.repo(User).delete(id)
+      await this.refresh()
+    }
   }
 
   async upsertUser(id = '') {

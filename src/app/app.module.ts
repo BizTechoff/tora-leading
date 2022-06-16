@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -25,6 +26,8 @@ import { ShluchimComponent } from './core/shluch/shluchim/shluchim.component';
 import { HomeComponent } from './home/home.component';
 import { AdminGuard, AvrechGuard, ManagerGuard, ManagerOrAdminGuard, ShluchGuard } from "./users/AuthGuard";
 import { UsersComponent } from './users/users.component';
+import { AvrechDetailsComponent } from './core/avrech/avrech-details/avrech-details.component';
+import { ShluchLecturesComponent } from './core/shluch/shluch-lectures/shluch-lectures.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,9 @@ import { UsersComponent } from './users/users.component';
     InputAreaComponent,
     ShluchimComponent,
     AvrechimComponent,
-    ShluchDetailsComponent
+    ShluchDetailsComponent,
+    AvrechDetailsComponent,
+    ShluchLecturesComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +58,7 @@ import { UsersComponent } from './users/users.component';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
+    MatExpansionModule,
     RemultModule
   ],
   providers: [DialogService, AdminGuard, ManagerGuard, ShluchGuard, AvrechGuard, ManagerOrAdminGuard],

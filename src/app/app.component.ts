@@ -34,12 +34,41 @@ export class AppComponent implements OnInit {
       object: signIn,
       ok: async () => {
         this.auth.setAuthToken(await signIn.signIn(), signIn.rememberOnThisDevice);
+        await this.navigateByRoleIfFirstRouting() 
       }
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.navigateByRoleIfFirstRouting() 
+  }
 
+  async navigateByRoleIfFirstRouting() {
+    let isFirstRouting =
+      [
+        '/',
+        '',
+        terms.home,
+        encodeURI(terms.home),
+        '/' + terms.home,
+        '/' + encodeURI(terms.home)
+      ].includes(this.router.url)
+      
+    if (isFirstRouting) {
+      
+      if (this.remult.user.isAdmin) {
+        this.router.navigateByUrl(encodeURI(terms.userAccounts))
+      }
+      else if (this.remult.user.isManager) {
+        this.router.navigateByUrl(encodeURI(terms.shluchim))
+      }
+      else if (this.remult.user.isShluch) {
+        this.router.navigateByUrl(encodeURI(terms.myLectures))
+      }
+      else if (this.remult.user.isAvrech) {
+        this.router.navigateByUrl(encodeURI(terms.myDetails))
+      }
+    }
   }
 
   signOut() {
