@@ -96,8 +96,10 @@ export class User extends IdEntity {
     @Fields.dateOnly({
         caption: 'תאריך נישואין',
         validate: (row, col) => {
-            if (!col || !col.value || col.value.getFullYear() <= 1900) {
-                col.error = 'שדה חובה'
+            if (row.shluch) {
+                if (!col || !col.value || col.value.getFullYear() <= 1900) {
+                    col.error = 'שדה חובה'
+                }
             }
         }
     })
@@ -105,15 +107,21 @@ export class User extends IdEntity {
 
     @Fields.string({
         caption: 'מיקום השליחות',
-        validate: Validators.required.withMessage('שדה חובה')
+        validate: (row) => {
+            if (row.shluch) {
+                Validators.required.withMessage('שדה חובה')
+            }
+        }
     })
     missionLocation = ''
 
     @Fields.dateOnly({
         caption: 'תאריך יציאה לשליחות',
         validate: (row, col) => {
-            if (!col || !col.value || col.value.getFullYear() <= 1900) {
-                col.error = 'שדה חובה'
+            if (row.shluch) {
+                if (!col || !col.value || col.value.getFullYear() <= 1900) {
+                    col.error = 'שדה חובה'
+                }
             }
         }
     })
