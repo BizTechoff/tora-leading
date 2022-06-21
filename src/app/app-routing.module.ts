@@ -11,15 +11,15 @@ import { ShluchLecturesComponent } from './core/shluch/shluch-lectures/shluch-le
 import { ShluchimComponent } from './core/shluch/shluchim/shluchim.component';
 import { HomeComponent } from './home/home.component';
 import { terms } from './terms';
-import { AdminGuard, AvrechGuard, ShluchGuard } from "./users/AuthGuard";
+import { AdminGuard, AvrechGuard, ManagerOrAdminGuard, ShluchGuard } from "./users/AuthGuard";
 import { UsersComponent } from './users/users.component';
 
 const defaultRoute = terms.home;
 const routes: Routes = [
   { path: defaultRoute, component: HomeComponent, canActivate: [NotAuthenticatedGuard] },
-  { path: terms.currentState, component: UsersComponent, canActivate: [AdminGuard] },
-  { path: terms.shluchim, component: ShluchimComponent, canActivate: [AdminGuard] },
-  { path: terms.avrechim, component: AvrechimComponent, canActivate: [AdminGuard] },
+  { path: terms.currentState, component: UsersComponent, canActivate: [ManagerOrAdminGuard] },
+  { path: terms.shluchim, component: ShluchimComponent, canActivate: [ManagerOrAdminGuard] },
+  { path: terms.avrechim, component: AvrechimComponent, canActivate: [ManagerOrAdminGuard] },
   { path: terms.userAccounts, component: UsersComponent, canActivate: [AdminGuard] },
   { path: terms.myLectures, component: ShluchLecturesComponent, canActivate: [ShluchGuard] },
   { path: terms.myDetails, component: ShluchDetailsComponent, canActivate: [ShluchGuard] },

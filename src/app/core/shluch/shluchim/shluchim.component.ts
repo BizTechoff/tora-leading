@@ -84,12 +84,13 @@ export class ShluchimComponent implements OnInit {
         title: title,
         fields: () => [
           u.$.name,
+          // { field: u.$.name, caption: () => '' },
           u.$.fname,
-          u.$.mobile,
           u.$.marriageDate,
           u.$.missionLocation,
           u.$.missionDate,
           u.$.email,
+          u.$.mobile,
           u.$.phone,
           u.$.remarks
         ],

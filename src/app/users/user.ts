@@ -34,7 +34,7 @@ import { Roles } from './roles';
 export class User extends IdEntity {
 
     @DataControl<User, string>({ width: '118' })
-    @Fields.string({
+    @Fields.string<User>({
         validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')],
         caption: terms.username
     })
