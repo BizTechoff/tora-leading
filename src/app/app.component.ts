@@ -50,6 +50,7 @@ export class AppComponent implements OnInit {
       object: signUp,
       ok: async () => {
         await signUp.signUp()
+        this.dialogService.info('נרשמת בהצלחה, יש להזין פרטי כניסה')
         this.signIn(signUp.user)
       }
     });
