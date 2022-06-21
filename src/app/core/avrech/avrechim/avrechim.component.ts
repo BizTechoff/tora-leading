@@ -34,6 +34,7 @@ export class AvrechimComponent implements OnInit {
 
     columnSettings: users => [
       users.name,
+      users.yeshiva,
       users.mobile,
       users.email,
       users.phone
@@ -83,9 +84,16 @@ export class AvrechimComponent implements OnInit {
         title: title,
         fields: () => [
           u.$.name,
-          u.$.mobile,
+          // { field: u.$.name, caption: () => '' },
+          u.$.fname,
+          u.$.yeshiva,
+          // u.$.marriageDate,
+          // u.$.missionLocation,
+          // u.$.missionDate,
           u.$.email,
-          u.$.phone
+          u.$.mobile,
+          u.$.phone,
+          u.$.remarks
         ],
         ok: async () => {
           await u.save()

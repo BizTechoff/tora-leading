@@ -51,8 +51,8 @@ export class ShluchimComponent implements OnInit {
         click: async (row) => await this.upsertUser(row?.id)
       }
     ],
-    confirmDelete: async (h) => {
-      return await this.dialog.confirmDelete(h.name)
+    confirmDelete: async (u) => {
+      return await this.dialog.confirmDelete(u.name)
     },
   });
 

@@ -3,22 +3,25 @@ import { Allow, BackendMethod, Entity, Fields, IdEntity, isBackend, Validators }
 import { terms } from "../terms";
 import { Roles } from './roles';
 
-@Entity<User>("users", {
-    allowApiRead: Allow.authenticated,
-    allowApiUpdate: Allow.authenticated,
-    allowApiDelete: Roles.admin,
-    allowApiInsert: Roles.admin,
-    defaultOrderBy: {
-        admin: "desc",
-        manager: "desc",
-        shluch: "desc",
-        avrech: "desc",
-        name: "asc"
-    }
-},
+@Entity<User>("users",
     (options, remult) => {
-        options.allowApiCrud = false
-        options.apiPrefilter = () => !remult.user.isAdmin ? { id: remult.user.id } : {};
+        options.allowApiRead = Allow.authenticated
+        options.allowApiUpdate = Allow.authenticated
+        options.allowApiDelete = Roles.admin
+        options.allowApiInsert = [Roles.admin, Roles.manager]
+        options.defaultOrderBy = {
+            admin: "desc",
+            manager: "desc",
+            shluch: "desc",
+            avrech: "desc",
+            name: "asc"
+        }
+        options.backendPrefilter = () => // if removing this line? '()=>', only once?
+            remult.user.isAdmin
+                ? {}
+                : remult.user.isManager
+                    ? { $or: [{ shluch: true }, { avrech: true }] }
+                    : { id: remult.user.id }
         options.saving = async (user) => {
             if (isBackend()) {
                 if (user._.isNew()) {
@@ -43,7 +46,7 @@ export class User extends IdEntity {
     @DataControl<User, string>({ width: '118' })
     @Fields.string({
         validate: (row, col) => {
-            if (row.shluch) {
+            if (row.shluch || row.avrech) {
                 if (!col || !col.value || col.value.trim().length === 0) {
                     col.error = 'שדה חובה'
                 }
@@ -69,7 +72,7 @@ export class User extends IdEntity {
     @Fields.string<User>({
         caption: 'אימייל',
         validate: (row, col) => {
-            if (row.shluch) {
+            if (row.shluch || row.avrech) {
                 if (!col || !col.value || col.value.trim().length === 0) {
                     col.error = 'שדה חובה'
                 }
@@ -93,10 +96,11 @@ export class User extends IdEntity {
     })
     email = ''
 
-    @Fields.dateOnly({
-        caption: 'תאריך נישואין',
-        validate: (row, col) => {
-            if (row.shluch) {
+    @Fields.dateOnly((options, remult) => {
+        options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
+        options.caption = 'תאריך נישואין'
+        options.validate = (row, col) => {
+            if (row.shluch && !remult.user.isAdmin) {
                 if (!col || !col.value || col.value.getFullYear() <= 1900) {
                     col.error = 'שדה חובה'
                 }
@@ -105,10 +109,11 @@ export class User extends IdEntity {
     })
     marriageDate!: Date
 
-    @Fields.string({
-        caption: 'מיקום השליחות',
-        validate: (row, col) => {
-            if (row.shluch) {
+    @Fields.string((options, remult) => {
+        options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
+        options.caption = 'מיקום השליחות'
+        options.validate = (row, col) => {
+            if (row.shluch && !remult.user.isAdmin) {
                 if (!col || !col.value || col.value.trim().length === 0) {
                     col.error = 'שדה חובה'
                 }
@@ -117,10 +122,11 @@ export class User extends IdEntity {
     })
     missionLocation = ''
 
-    @Fields.dateOnly({
-        caption: 'תאריך יציאה לשליחות',
-        validate: (row, col) => {
-            if (row.shluch) {
+    @Fields.dateOnly((options, remult) => {
+        options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
+        options.caption = 'תאריך יציאה לשליחות'
+        options.validate = (row, col) => {
+            if (row.shluch && !remult.user.isAdmin) {
                 if (!col || !col.value || col.value.getFullYear() <= 1900) {
                     col.error = 'שדה חובה'
                 }
@@ -128,6 +134,20 @@ export class User extends IdEntity {
         }
     })
     missionDate!: Date
+
+    @DataControl<User, string>({ width: '118' })
+    @Fields.string((options, remult) => {
+        options.allowApiUpdate = Roles.admin || Roles.manager || Roles.avrech
+        options.caption = 'שם ישיבה'
+        options.validate = (row, col) => {
+            if (row.avrech && !remult.user.isAdmin) {
+                if (!col || !col.value || col.value.trim().length === 0) {
+                    col.error = 'שדה חובה'
+                }
+            }
+        }
+    })
+    yeshiva = ''
 
     @Fields.string({ includeInApi: false })
     password = '';
@@ -183,7 +203,7 @@ export class User extends IdEntity {
         }
     })
     @Fields.boolean({
-        allowApiUpdate: Roles.admin,
+        allowApiUpdate: [Roles.admin, Roles.manager],
         caption: terms.shluch
     })
     shluch = false;
@@ -199,7 +219,7 @@ export class User extends IdEntity {
         }
     })
     @Fields.boolean({
-        allowApiUpdate: Roles.admin,
+        allowApiUpdate: [Roles.admin, Roles.manager],
         caption: terms.avrech
     })
     avrech = false;
