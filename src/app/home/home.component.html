@@ -11,7 +11,14 @@
       <h2 style="display:flex;justify-content: center;">חדשות שלנו..</h2>
       <!-- *ngIf="args.helpText"> -->
       <div>
-        <textarea rows="10" style="width: 80%; border: none; text-align: center; font-weight: bold; font-size: xx-large; color: orangered;" *ngIf="remult.authenticated()" class="help-text">
+        <textarea rows="15" style="
+          width: 80%; 
+          border: none; 
+          text-align: center; 
+          font-weight: bold; 
+          font-size: xx-large; 
+          color: orangered;
+          background-color: transparent;" *ngIf="remult.authenticated()" class="help-text">
           {{ this.showMessage() }}
         </textarea>
       </div>
