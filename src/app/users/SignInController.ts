@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { BackendMethod, Controller, ControllerBase, Fields, UserInfo, Validators } from "remult";
+import { BackendMethod, Controller, ControllerBase, Fields, isBackend, UserInfo, Validators } from "remult";
 import { terms } from "../terms";
 import { Roles } from "./roles";
 import { User } from "./user";
@@ -22,6 +22,13 @@ export class SignInController extends ControllerBase {
         caption: terms.rememberOnThisDevice,
     })
     rememberOnThisDevice = true;
+
+    // isAllowedRegister = () => {
+    //     if (isBackend()) {
+    //         return process.env['IS_ALLOWED_REGISTER'] === 'true'
+    //     }
+    //     return false
+    // }
 
     @BackendMethod({ allowed: true })
     async signIn() {

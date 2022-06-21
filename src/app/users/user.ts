@@ -8,7 +8,7 @@ import { Roles } from './roles';
         options.allowApiRead = Allow.authenticated
         options.allowApiUpdate = Allow.authenticated
         options.allowApiDelete = Roles.admin
-        options.allowApiInsert = [Roles.admin, Roles.manager]
+        options.allowApiInsert = true // ifAllowRegistering // [Roles.admin, Roles.manager]
         options.defaultOrderBy = {
             admin: "desc",
             manager: "desc",

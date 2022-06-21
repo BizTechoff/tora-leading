@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, Route, ActivatedRoute } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Remult } from 'remult';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { openDialog, RouteHelperService } from '@remult/angular';
-import { User } from './users/user';
-import { InputAreaComponent } from './common/popup/input-area/input-area.component';
+import { Remult } from 'remult';
 import { AuthService } from './auth.service';
+import { DialogService } from './common/popup/dialog';
+import { InputAreaComponent } from './common/popup/input-area/input-area.component';
 import { terms } from './terms';
 import { SignInController } from './users/SignInController';
+import { SignUpController } from './users/SignUpController';
 import { UpdatePasswordController } from './users/UpdatePasswordController';
-import { DialogService } from './common/popup/dialog';
+import { User } from './users/user';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,8 @@ import { DialogService } from './common/popup/dialog';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  alloedRegister = true
+
   constructor(
     public router: Router,
     public activeRoute: ActivatedRoute,
@@ -27,20 +30,33 @@ export class AppComponent implements OnInit {
   }
   terms = terms;
 
-  async signIn() {
+  async signIn(name = '') {
     const signIn = new SignInController(this.remult);
+    signIn.user = name
     openDialog(InputAreaComponent, i => i.args = {
       title: terms.signIn,
       object: signIn,
       ok: async () => {
         this.auth.setAuthToken(await signIn.signIn(), signIn.rememberOnThisDevice);
-        await this.navigateByRoleIfFirstRouting() 
+        await this.navigateByRoleIfFirstRouting()
+      }
+    });
+  }
+
+  async signUp() {
+    const signUp = new SignUpController(this.remult);
+    openDialog(InputAreaComponent, i => i.args = {
+      title: terms.signUp,
+      object: signUp,
+      ok: async () => {
+        await signUp.signUp()
+        this.signIn(signUp.user)
       }
     });
   }
 
   async ngOnInit(): Promise<void> {
-    await this.navigateByRoleIfFirstRouting() 
+    await this.navigateByRoleIfFirstRouting()
   }
 
   async navigateByRoleIfFirstRouting() {
@@ -53,9 +69,9 @@ export class AppComponent implements OnInit {
         '/' + terms.home,
         '/' + encodeURI(terms.home)
       ].includes(this.router.url)
-      
+
     if (isFirstRouting) {
-      
+
       if (this.remult.user.isAdmin) {
         this.router.navigateByUrl(encodeURI(terms.userAccounts))
       }
@@ -131,7 +147,7 @@ export class AppComponent implements OnInit {
       this.sidenav.close();
   }
 
-  openSite(url:string){
+  openSite(url: string) {
     window.open(url, '_blank')
   }
 

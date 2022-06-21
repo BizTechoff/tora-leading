@@ -1,6 +1,6 @@
 export const terms = {
     appName: 'מנהיגות תורנית',
-    appVersion: '2022.06.21.2',
+    appVersion: '2022.06.21.4',
     name: 'שם',
     installtionNameRequired: 'תיאור ההתקנה שדה חובה',
     status: 'סטטוס',
@@ -45,6 +45,7 @@ export const terms = {
     couriers: 'שליחים',
     welcome: 'ברוכים הבאים',
     invalidSignIn: 'פרטי התחברות שגויים',
+    invalidSignUp:'שגיאה בהרשמה',
     rememberOnThisDevice: 'זכור אותי',
     passwordDeleteConfirmOf: 'בטוח לאפס סיסמה ל: ',
     addUser: 'הוספת משתמש',
