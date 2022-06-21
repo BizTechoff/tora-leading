@@ -224,6 +224,15 @@ export class User extends IdEntity {
     })
     avrech = false;
 
+    @DataControl<User, boolean>({
+        width: '88'
+    })
+    @Fields.boolean({
+        allowApiUpdate: [Roles.admin, Roles.manager],
+        caption: 'מאושר לתוכנית'
+    })
+    approved = false;
+
     async hashAndSetPassword(password: string) {
         this.password = (await import('password-hash')).generate(password);
     }

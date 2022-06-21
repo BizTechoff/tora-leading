@@ -60,6 +60,7 @@ export class AppComponent implements OnInit {
   }
 
   async navigateByRoleIfFirstRouting() {
+    console.log('this.router.url', this.router.url)
     let isFirstRouting =
       [
         '/',
@@ -70,19 +71,31 @@ export class AppComponent implements OnInit {
         '/' + encodeURI(terms.home)
       ].includes(this.router.url)
 
+    console.log('isFirstRouting', isFirstRouting)
     if (isFirstRouting) {
 
       if (this.remult.user.isAdmin) {
+        console.log(1)
         this.router.navigateByUrl(encodeURI(terms.userAccounts))
       }
       else if (this.remult.user.isManager) {
+        console.log(2)
         this.router.navigateByUrl(encodeURI(terms.shluchim))
       }
       else if (this.remult.user.isShluch) {
+        console.log(3)
         this.router.navigateByUrl(encodeURI(terms.myLectures))
       }
       else if (this.remult.user.isAvrech) {
+        console.log(4)
         this.router.navigateByUrl(encodeURI(terms.myDetails))
+      }
+      else {
+        console.log(5)
+        this.router.navigateByUrl(encodeURI(terms.welcome))
+        this.router.navigateByUrl(encodeURI(terms.home))
+        this.router.navigateByUrl('/ברוכים%20הבאים')
+        this.router.navigateByUrl('ברוכים הבאים')
       }
     }
   }
