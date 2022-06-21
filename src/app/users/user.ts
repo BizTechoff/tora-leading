@@ -28,7 +28,7 @@ import { Roles } from './roles';
                     }
                 }
             }
-        } 
+        }
     }
 )
 export class User extends IdEntity {
@@ -107,9 +107,11 @@ export class User extends IdEntity {
 
     @Fields.string({
         caption: 'מיקום השליחות',
-        validate: (row) => {
+        validate: (row, col) => {
             if (row.shluch) {
-                Validators.required.withMessage('שדה חובה')
+                if (!col || !col.value || col.value.trim().length === 0) {
+                    col.error = 'שדה חובה'
+                }
             }
         }
     })

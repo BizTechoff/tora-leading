@@ -34,6 +34,7 @@ export class ShluchimComponent implements OnInit {
 
     columnSettings: users => [
       users.name,
+      users.fname,
       users.mobile,
       users.email,
       users.phone
@@ -83,9 +84,14 @@ export class ShluchimComponent implements OnInit {
         title: title,
         fields: () => [
           u.$.name,
+          u.$.fname,
           u.$.mobile,
+          u.$.marriageDate,
+          u.$.missionLocation,
+          u.$.missionDate,
           u.$.email,
-          u.$.phone
+          u.$.phone,
+          u.$.remarks
         ],
         ok: async () => {
           await u.save()
