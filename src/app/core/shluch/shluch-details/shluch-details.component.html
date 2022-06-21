@@ -28,7 +28,7 @@
     </div>
     <div class="footer">
         <div style="display: flex; flex-direction: row; justify-content: space-between; ">
-            <button *ngIf="this.shluch._.wasChanged()" style="width: 100%;" mat-raised-button color='primary' (click)="save()">
+            <button [disabled]="!this.shluch._.wasChanged()" style="width: 100%;" mat-raised-button color='primary' (click)="save()">
                 <!-- <mat-icon>add</mat-icon> -->
                 <mat-label> {{ this.terms.update }} </mat-label>
             </button>

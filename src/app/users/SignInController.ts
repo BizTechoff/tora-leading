@@ -29,17 +29,20 @@ export class SignInController extends ControllerBase {
         const userRepo = this.remult.repo(User);
         let u = await userRepo.findFirst({ name: this.user });
         if (!u) {
-            if (await userRepo.count() === 0) { //first ever user is the admin
+            let count = await userRepo.count()
+            if (count === 0) { //first ever user is the admin
                 u = await userRepo.insert({
                     name: this.user,
                     admin: true,
                     mobile: process.env['ADMIN_MOBILE']
                 })
+                await u.hashAndSetPassword(this.password)
+                await u.save()
             }
         }
         if (u) {
             if (!u.password) { // if the user has no password defined, the first password they use is their password
-                u.hashAndSetPassword(this.password);
+                await u.hashAndSetPassword(this.password);
                 await u.save();
             }
 
@@ -78,9 +81,10 @@ export class SignInController extends ControllerBase {
         throw new Error(terms.invalidSignIn);
     }
 }
+
 export function getJwtSecret() {
     if (process.env['NODE_ENV'] === "production")
         return process.env['TOKEN_SIGN_KEY']!;
-        // return process.env['JWT_SECRET']!;
-    return "my secret key";
+    return process.env['JWT_SECRET']!;
+    // return "my secret key";
 }

@@ -9,9 +9,9 @@ import { getJwtSecret } from '../app/users/SignInController';
 import { api } from './api';
  
 config(); //loads the configuration from the .env file
-
+ 
 async function startup() {
-    const app = express();
+    const app = express(); 
     app.use(sslRedirect());
     app.use(expressjwt({ secret: getJwtSecret(), credentialsRequired: false, algorithms: ['HS256'] }));
     app.use(compression());

@@ -93,6 +93,9 @@ export class ShluchLecturesComponent implements OnInit {
     }
   }
 
+  async certificates() {
+  }
+
   async addLectureMonth(l: Lecture) {
     let add = this.remult.repo(LectureMonth).create()
     add.lecture = l
