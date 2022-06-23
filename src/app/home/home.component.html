@@ -48,9 +48,10 @@
       <!-- <h4> 
         <span>נכון ל: {{ this.now() | date : 'HH:mm' }} </span>
       </h4> -->
-      <button mat-flat-button style="background-color: transparent; font-size: x-large;" title="בדוק שוב"  (click)="this.refresh()"> 
+      <button mat-flat-button style="background-color: transparent; font-size: x-large;" title="בדוק שוב"
+        (click)="this.refresh()">
         <mat-label> נכון ל: {{ this.now() | date : 'HH:mm' }} </mat-label>
-        <mat-icon>refresh</mat-icon>
+        <mat-icon dir="ltr">refresh</mat-icon>
       </button>
     </div>
   </div>
