@@ -29,4 +29,8 @@ export class HomeComponent implements OnInit {
     return new Date()
   }
 
+  refresh() {
+    window?.location?.reload()
+  }
+
 }

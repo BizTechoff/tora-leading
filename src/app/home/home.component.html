@@ -46,8 +46,10 @@
   <div class="footer" *ngIf="remult.authenticated() && remult.user.roles.length === 0">
     <div style="display:flex;justify-content: center;">
       <h4> <span>נכון ל: {{ this.now() | date : 'HH:mm' }} </span>
-        <mat-icon>refresh</mat-icon>
+       
       </h4>
+      <button title="בדוק שוב" style="border: none; cursor: pointer;" (click)="this.refresh()"> <mat-icon>refresh</mat-icon>
+      </button>
     </div>
   </div>
 </div>
