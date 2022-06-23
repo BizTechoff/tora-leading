@@ -10,17 +10,22 @@
       </h2>
       <h2 style="display:flex;justify-content: center;">חדשות שלנו..</h2>
       <!-- *ngIf="args.helpText"> -->
-      <div>
-        <textarea rows="15" style="
+      <div *ngIf="remult.authenticated() && remult.user.roles.length === 0">
+        <div style="
           width: 80%; 
+          height: auto;
           border: none; 
           text-align: center; 
           font-weight: bold; 
           font-size: xx-large; 
           color: orangered;
-          background-color: transparent;" *ngIf="remult.authenticated()" class="help-text">
-          {{ this.showMessage() }}
-        </textarea>
+          background-color: transparent;" class="help-text">
+          <div>{{ 'בהמתנה לאישור הרשמתך לתוכנית' }}</div>
+          <br>
+          <div>{{ 'הודעה תשלח למספר ' + ' 052- ' + ' כאשר יתקבל אישור' }}</div>
+          <br>
+          <div>{{ 'לפרטים ניתן לשלוח ווטסאפ למספר ' + ' 053-help ' + ' או למייל' }}</div>
+        </div>
       </div>
       <!-- <div style="display:flex;justify-content: center;">
         <strong>
@@ -38,9 +43,11 @@
       </div> -->
     </div>
   </div>
-  <!-- <div class="footer">
+  <div class="footer" *ngIf="remult.authenticated() && remult.user.roles.length === 0">
     <div style="display:flex;justify-content: center;">
-      <img style="width: 100%;" src="assets/tora.shlema.logo.with.text.png" title="מנהיגות תורנית" />
+      <h4> <span>נכון ל: {{ this.now() | date : 'HH:mm' }} </span>
+        <mat-icon>refresh</mat-icon>
+      </h4>
     </div>
-  </div> -->
+  </div>
 </div>

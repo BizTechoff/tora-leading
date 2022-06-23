@@ -1,5 +1,6 @@
 import { DataControl } from "@remult/angular/interfaces";
 import { Allow, BackendMethod, Entity, Fields, IdEntity, isBackend, Validators } from "remult";
+import { mobileFromDb, mobileToDb } from "../common/utils";
 import { terms } from "../terms";
 import { Roles } from './roles';
 
@@ -56,10 +57,14 @@ export class User extends IdEntity {
     })
     fname = ''
 
-    @DataControl<User, string>({ width: '98' })
+    @DataControl<User, string>({ width: '108' })
     @Fields.string({
         validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')],
-        caption: terms.mobile
+        caption: terms.mobile,
+        valueConverter: {
+            fromDb: col => mobileFromDb(mobileToDb(col) as string),
+            toDb: col => mobileToDb(col) as string
+        }
     })
     mobile = ''
 
@@ -155,11 +160,6 @@ export class User extends IdEntity {
     @Fields.string({ caption: 'הערות' })
     remarks = '';
 
-    @Fields.date({
-        allowApiUpdate: false
-    })
-    createDate = new Date();
-
     @DataControl<User, boolean>({
         width: '88',
         valueChange: (row, col) => {
@@ -223,6 +223,31 @@ export class User extends IdEntity {
         caption: terms.avrech
     })
     avrech = false;
+
+    @Fields.date({
+        allowApiUpdate: false
+    })
+    createDate = new Date();
+
+    @DataControl<User, boolean>({
+        width: '88'
+    })
+    @Fields.boolean({
+        // allowApiUpdate: false
+        allowApiUpdate: [Roles.admin, Roles.manager],
+        caption: 'מאושר להתחיל'
+    })
+    allowToStart = false
+
+    @DataControl<User, Date>({
+        width: '88'
+    })
+    @Fields.date({
+        // allowApiUpdate: false
+        allowApiUpdate: [Roles.admin, Roles.manager],
+        caption: 'התחיל ב'
+    })
+    started = new Date();
 
     @DataControl<User, boolean>({
         width: '88'

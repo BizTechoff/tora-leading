@@ -42,3 +42,11 @@ export class ManagerOrAdminGuard extends AuthenticatedGuard {
         return this.remult.isAllowed([Roles.admin, Roles.manager]);
     }
 }
+
+@Injectable()
+export class NotAuthenticatedOrNoRolesGuard extends AuthenticatedGuard {
+
+    override isAllowed() {
+        return !this.remult.authenticated() || this.remult.user.roles.length === 0;
+    }
+}

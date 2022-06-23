@@ -19,9 +19,15 @@ export class ShluchimComponent implements OnInit {
   terms = terms
 
   @DataControl<ShluchimComponent>({
-    valueChange: async (row, col) => await row?.refresh()
+    clickIcon: 'serach',
+    hideDataOnInput: true,
+    click: () => { console.log('click') },
+    valueChange: async (row, col) => {
+      console.log('valueChange')
+      await row?.refresh()
+    }
   })
-  @Fields.string({ caption: 'חיפוש משתמש' })
+  @Fields.string<ShluchimComponent>({ caption: 'חיפוש משתמש' })
   search = ''
 
   users = new GridSettings(this.remult.repo(User), {
@@ -83,15 +89,15 @@ export class ShluchimComponent implements OnInit {
       dlg => dlg.args = {
         title: title,
         fields: () => [
-          u.$.name,
+          [{field:u.$.name, caption:'שם פרטי'},
           // { field: u.$.name, caption: () => '' },
-          u.$.fname,
+          u.$.fname],
           u.$.marriageDate,
           u.$.missionLocation,
           u.$.missionDate,
           u.$.email,
-          u.$.mobile,
-          u.$.phone,
+          [u.$.mobile,
+          u.$.phone],
           u.$.remarks
         ],
         ok: async () => {

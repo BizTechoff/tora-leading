@@ -49,8 +49,9 @@ export class AppComponent implements OnInit {
       title: terms.signUp,
       object: signUp,
       ok: async () => {
-        await signUp.signUp()
-        this.dialogService.info('נרשמת בהצלחה, יש להזין פרטי כניסה')
+        let uid = await signUp.signUp()
+        // await sendSms(Sms.ThanksForRegistering, uid)
+        this.dialogService.info('נרשמת בהצלחה. מסרון עם סיסמת כניסה נשלח לסלולרי שלך')
         this.signIn(signUp.user)
       }
     });

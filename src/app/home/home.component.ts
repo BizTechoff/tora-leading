@@ -25,4 +25,8 @@ export class HomeComponent implements OnInit {
     return result
   }
 
+  now() {
+    return new Date()
+  }
+
 }
