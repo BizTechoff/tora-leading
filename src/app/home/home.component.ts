@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BusyService } from '@remult/angular';
 import { Remult } from 'remult';
+import { DialogService } from '../common/popup/dialog';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +10,7 @@ import { Remult } from 'remult';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public remult: Remult) { }
+  constructor(public remult: Remult, private dialog: DialogService) { }
 
   ngOnInit() {
   }
@@ -30,6 +32,8 @@ export class HomeComponent implements OnInit {
   }
 
   refresh() {
+    // this.busy.startBusyWithProgress()
+    this.dialog.info('בודק אם אושרת')
     window?.location?.reload()
   }
 

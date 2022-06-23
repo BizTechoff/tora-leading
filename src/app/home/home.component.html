@@ -45,10 +45,12 @@
   </div>
   <div class="footer" *ngIf="remult.authenticated() && remult.user.roles.length === 0">
     <div style="display:flex;justify-content: center;">
-      <h4> <span>נכון ל: {{ this.now() | date : 'HH:mm' }} </span>
-       
-      </h4>
-      <button title="בדוק שוב" style="border: none; cursor: pointer;" (click)="this.refresh()"> <mat-icon>refresh</mat-icon>
+      <!-- <h4> 
+        <span>נכון ל: {{ this.now() | date : 'HH:mm' }} </span>
+      </h4> -->
+      <button mat-flat-button title="בדוק שוב"  (click)="this.refresh()"> 
+        <mat-label> נכון ל: {{ this.now() | date : 'HH:mm' }} </mat-label>
+        <mat-icon>refresh</mat-icon>
       </button>
     </div>
   </div>
