@@ -24,11 +24,11 @@ const routes: Routes = [// },//, canActivate: [NotAuthenticatedOrNoRolesGuard] }
   { path: terms.myLectures, component: ShluchLecturesComponent, canActivate: [ShluchGuard] },
   { path: terms.myDetails, component: ShluchDetailsComponent, canActivate: [ShluchGuard] },
   { path: terms.myDetails, component: AvrechDetailsComponent, canActivate: [AvrechGuard] },
-  { path: '**', component: HomeComponent, pathMatch: 'full' }//, redirectTo: '/' + defaultRoute
+  { path: '**', component: HomeComponent, pathMatch: 'full', data: { name: defaultRoute } }//, redirectTo: '/' + defaultRoute
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes /*, { enableTracing: true }*/ ),
+  imports: [RouterModule.forRoot(routes /*, { enableTracing: true }*/),
     RemultModule,
   JwtModule.forRoot({
     config: { tokenGetter: () => AuthService.fromStorage() }

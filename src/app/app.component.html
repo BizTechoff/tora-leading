@@ -3,7 +3,7 @@
     {{ 'בס"ד' }}
   </div>
   <mat-toolbar color="primary" style="flex-shrink: 0;">
-    <button *ngIf="remult.authenticated()" mat-button class="sidenav-toggle" (click)="sidenav.toggle()" >
+    <button *ngIf="this.registeredOk()" mat-button class="sidenav-toggle" (click)="sidenav.toggle()" >
       <mat-icon>menu</mat-icon>
     </button>
     <span class="toolbar-title">{{currentTitle()}}</span>
@@ -21,7 +21,7 @@
     </ng-container>
   </mat-toolbar>
   <mat-sidenav-container class="app-sidenav-container">
-    <mat-sidenav #sidenav class="app-sidenav mat-elevation-z10 no-print" [opened]="!dialogService.isScreenSmall()"
+    <mat-sidenav #sidenav class="app-sidenav mat-elevation-z10 no-print" [opened]="!dialogService.isScreenSmall() && this.registeredOk()"
       [mode]="dialogService.isScreenSmall()?'over':'side'">
       <div style="display:flex; justify-content: center; margin-top: 2%;">
         <!-- <a href="https://biztechoff.co.il/" target="_blank"> -->

@@ -112,7 +112,7 @@ export class UsersComponent implements OnInit {
       title = 'הוספת משתמש'
       u = this.remult.repo(User).create()
     }
-
+ 
     let changed = await openDialog(InputAreaComponent,
       dlg => dlg.args = {
         title: title,

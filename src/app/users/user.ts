@@ -1,8 +1,9 @@
 import { DataControl } from "@remult/angular/interfaces";
-import { Allow, BackendMethod, Entity, Fields, IdEntity, isBackend, Validators } from "remult";
+import { Allow, BackendMethod, Entity, Field, Fields, IdEntity, isBackend, Validators } from "remult";
 import { mobileFromDb, mobileToDb } from "../common/utils";
 import { terms } from "../terms";
 import { Roles } from './roles';
+import { UserStatus } from "./userStatus";
 
 @Entity<User>("users",
     (options, remult) => {
@@ -17,12 +18,12 @@ import { Roles } from './roles';
             avrech: "desc",
             name: "asc"
         }
-        options.backendPrefilter = () => // if removing this line? '()=>', only once?
+        options.backendPrefilter = () => // if removing this line? '()=>', call only once? every refresh?
             remult.user.isAdmin
                 ? {}
                 : remult.user.isManager
                     ? { $or: [{ shluch: true }, { avrech: true }] }
-                    : { id: remult.user.id }
+                    : { id: remult.user.id }// need id$ ? whats diff ?
         options.saving = async (user) => {
             if (isBackend()) {
                 if (user._.isNew()) {
@@ -37,6 +38,9 @@ import { Roles } from './roles';
 )
 export class User extends IdEntity {
 
+    @Field<User>(() => UserStatus, { caption: 'סטטוס' })
+    status!: UserStatus
+
     @DataControl<User, string>({ width: '118' })
     @Fields.string<User>({
         validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')],
@@ -45,39 +49,39 @@ export class User extends IdEntity {
     name = '';
 
     @DataControl<User, string>({ width: '118' })
-    @Fields.string({
-        validate: (row, col) => {
-            if (row.shluch || row.avrech) {
+    @Fields.string((options, remult) => {
+        options.validate = (row, col) => {
+            if ((row.shluch || row.avrech) && !remult.user.isAdmin) {
                 if (!col || !col.value || col.value.trim().length === 0) {
                     col.error = 'שדה חובה'
                 }
             }
-        },
-        caption: 'שם משפחה'
+        }
+        options.caption = 'שם משפחה'
     })
     fname = ''
 
     @DataControl<User, string>({ width: '108' })
-    @Fields.string({
-        validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')],
-        caption: terms.mobile,
-        valueConverter: {
+    @Fields.string((options, remult) => {
+        options.validate = [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')]
+        options.caption = terms.mobile
+        options.valueConverter = {
             fromDb: col => mobileFromDb(mobileToDb(col) as string),
             toDb: col => mobileToDb(col) as string
         }
     })
     mobile = ''
 
-    @Fields.string({
-        caption: 'טלפון'//,
-        // validate: Validators.required.withMessage('שדה חובה')
+    @Fields.string((options, remult) => {
+        options.caption = 'טלפון'
+        // validate = Validators.required.withMessage('שדה חובה')
     })
     phone = ''
 
-    @Fields.string<User>({
-        caption: 'אימייל',
-        validate: (row, col) => {
-            if (row.shluch || row.avrech) {
+    @Fields.string<User>((options, remult) => {
+        options.caption = 'אימייל'
+        options.validate = (row, col) => {
+            if ((row.shluch || row.avrech) && !remult.user.isAdmin) {
                 if (!col || !col.value || col.value.trim().length === 0) {
                     col.error = 'שדה חובה'
                 }
@@ -256,7 +260,7 @@ export class User extends IdEntity {
         allowApiUpdate: [Roles.admin, Roles.manager],
         caption: 'מאושר לתוכנית'
     })
-    approved = false;
+    approved = false;// add when(date)
 
     async hashAndSetPassword(password: string) {
         this.password = (await import('password-hash')).generate(password);

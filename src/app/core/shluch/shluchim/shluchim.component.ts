@@ -90,7 +90,6 @@ export class ShluchimComponent implements OnInit {
         title: title,
         fields: () => [
           [{field:u.$.name, caption:'שם פרטי'},
-          // { field: u.$.name, caption: () => '' },
           u.$.fname],
           u.$.marriageDate,
           u.$.missionLocation,

@@ -13,8 +13,8 @@ export class SignUpController extends ControllerBase {
 
     @Fields.string({
         caption: terms.mobile,
-        validate: Validators.required,
-        inputType: 'password'
+        validate: Validators.required//,
+        // inputType: 'password'
     })
     mobile = '';
 

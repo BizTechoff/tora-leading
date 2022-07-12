@@ -83,9 +83,8 @@ export class AvrechimComponent implements OnInit {
       dlg => dlg.args = {
         title: title,
         fields: () => [
-          u.$.name,
-          // { field: u.$.name, caption: () => '' },
-          u.$.fname,
+          [{field:u.$.name, caption:'שם פרטי'},
+          u.$.fname],
           u.$.yeshiva,
           // u.$.marriageDate,
           // u.$.missionLocation,

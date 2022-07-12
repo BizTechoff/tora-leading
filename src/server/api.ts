@@ -11,7 +11,7 @@ import { UpdatePasswordController } from '../app/users/UpdatePasswordController'
 import { User } from '../app/users/user';
 
 config()
-
+ 
 export const api = remultExpress({
     entities: [User, Questionnaire, Course, Lecture, LectureMonth],
     controllers: [SignInController, SignUpController, UpdatePasswordController],

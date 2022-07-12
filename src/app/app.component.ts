@@ -57,6 +57,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  registeredOk(){
+    return this.remult.authenticated() && this.remult.user.roles.length > 0
+  }
+
   async ngOnInit(): Promise<void> {
     await this.navigateByRoleIfFirstRouting()
   }
@@ -119,6 +123,7 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
   async changePassword() {
     const updatePassword = new UpdatePasswordController(this.remult);
     openDialog(InputAreaComponent, i => i.args = {
@@ -128,7 +133,6 @@ export class AppComponent implements OnInit {
         await updatePassword.updatePassword();
       }
     });
-
   }
 
   routeName(route: Route) {
