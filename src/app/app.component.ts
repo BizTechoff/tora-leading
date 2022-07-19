@@ -6,7 +6,7 @@ import { Remult } from 'remult';
 import { AuthService } from './auth.service';
 import { DialogService } from './common/popup/dialog';
 import { InputAreaComponent } from './common/popup/input-area/input-area.component';
-import { GlobalParam } from './globals';
+import { checkIfUserApprooved, GlobalParam } from './globals';
 import { terms } from './terms';
 import { SignInController } from './users/SignInController';
 import { UpdatePasswordController } from './users/UpdatePasswordController';
@@ -28,17 +28,24 @@ export class AppComponent implements OnInit {
     public dialogService: DialogService,
     public remult: Remult,
     public auth: AuthService) {
+    // console.log('AppComponent.constructor')
   }
   terms = terms;
 
   async ngOnInit(): Promise<void> {
+    this.allowToStart = await checkIfUserApprooved(this.remult)
+
+    // this.allowToStart = GlobalParam.allowToStart
+    // this.isAllowToStart(AuthService.loadedFromStorage)
+    // console.log('AppComponent.ngOnInit', GlobalParam.allowToStart)
     // let u = await this.remult.repo(User).findId(this.remult.user.id, { useCache: false });
-    this.allowToStart = GlobalParam.allowToStart// u?.allowToStart ?? false
-    console.log(1)
-    if (this.allowToStart) {
-      console.log(2)
-      await this.navigateByRoleIfFirstRouting()
-    }
+    // this.allowToStart = GlobalParam.allowToStart// u?.allowToStart ?? false
+    console.log('AppComponent.ngOnInit',this.allowToStart)//??????? NOT TRUE YET !!!!!!!
+    // if (this.allowToStart) {
+    // //   console.log(2)
+    //   await this.navigateByRoleIfFirstRouting()
+    // }
+    await this.navigateByRoleIfFirstRouting()
   }
 
   async signIn(name = '') {
@@ -98,49 +105,55 @@ export class AppComponent implements OnInit {
     // });
   }
 
-  registeredOk() {
-    return this.allowToStart
-    // return this.remult.authenticated() && this.remult.user.roles.length > 0
-  }
+  // isAllowToStart() {
+  //   return this.allowToStart
+  //   // return this.remult.authenticated() && this.remult.user.roles.length > 0
+  // }
 
   async navigateByRoleIfFirstRouting() {
-    console.log('this.router.url', this.router.url)
-    let isFirstRouting =
-      [
-        '/',
-        '',
-        terms.home,
-        encodeURI(terms.home),
-        '/' + terms.home,
-        '/' + encodeURI(terms.home)
-      ].includes(this.router.url)
+    if (GlobalParam.allowToStart) {
+      console.log('this.router.url', this.router.url)
+      let isFirstRouting =
+        [
+          '/',
+          '',
+          terms.home,
+          encodeURI(terms.home),
+          '/' + terms.home,
+          '/' + encodeURI(terms.home)
+        ].includes(this.router.url)
 
-    console.log('isFirstRouting', isFirstRouting)
-    if (isFirstRouting) {
+      console.log('isFirstRouting', isFirstRouting)
+      if (isFirstRouting) {
 
-      if (this.remult.user.isAdmin) {
-        console.log(1)
-        this.router.navigateByUrl(encodeURI(terms.userAccounts))
+        if (this.remult.user.isAdmin) {
+          console.log(1)
+          this.router.navigateByUrl(encodeURI(terms.userAccounts), {replaceUrl: true})
+        }
+        else if (this.remult.user.isManager) {
+          console.log(2)
+          this.router.navigateByUrl(encodeURI(terms.currentState))
+        }
+        else if (this.remult.user.isShluch) {
+          console.log(3)
+          this.router.navigateByUrl(encodeURI(terms.myLectures))
+        }
+        else if (this.remult.user.isAvrech) {
+          console.log(4)
+          this.router.navigateByUrl(encodeURI(terms.myDetails))
+        }
+        else {
+          console.log(5)
+          this.router.navigateByUrl(encodeURI(terms.welcome))
+          this.router.navigateByUrl(encodeURI(terms.home))
+          this.router.navigateByUrl('/ברוכים%20הבאים')
+          this.router.navigateByUrl('ברוכים הבאים')
+        }
       }
-      else if (this.remult.user.isManager) {
-        console.log(2)
-        this.router.navigateByUrl(encodeURI(terms.shluchim))
-      }
-      else if (this.remult.user.isShluch) {
-        console.log(3)
-        this.router.navigateByUrl(encodeURI(terms.myLectures))
-      }
-      else if (this.remult.user.isAvrech) {
-        console.log(4)
-        this.router.navigateByUrl(encodeURI(terms.myDetails))
-      }
-      else {
-        console.log(5)
-        this.router.navigateByUrl(encodeURI(terms.welcome))
-        this.router.navigateByUrl(encodeURI(terms.home))
-        this.router.navigateByUrl('/ברוכים%20הבאים')
-        this.router.navigateByUrl('ברוכים הבאים')
-      }
+    }
+    else{
+      console.log('GlobalParam.allowToStart = false')
+      this.router.navigateByUrl(encodeURI(terms.welcome))
     }
   }
 

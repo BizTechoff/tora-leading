@@ -29,6 +29,9 @@ export class ShluchLecturesComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.refresh()
+    if (this.lectures.length === 0) {
+      await this.addLecture()
+    }
   }
 
   getGrid(l: Lecture): GridSettings<LectureMonth> {

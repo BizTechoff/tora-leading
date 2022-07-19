@@ -1,4 +1,5 @@
 export const terms = {
+    UserRoleNOTSET:'חובה סוג הרשאה',
     appName: 'מנהיגות תורנית',
     appVersion: '2022.07.13',
     name: 'שם',

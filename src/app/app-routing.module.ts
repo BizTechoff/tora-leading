@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { ShowDialogOnErrorErrorHandler } from './common/popup/dialog';
 import { AvrechDetailsComponent } from './core/avrech/avrech-details/avrech-details.component';
 import { AvrechimComponent } from './core/avrech/avrechim/avrechim.component';
+import { ManagerRequestsComponent } from './core/manager/manager-requests/manager-requests.component';
 import { ShluchDetailsComponent } from './core/shluch/shluch-details/shluch-details.component';
 import { ShluchLecturesComponent } from './core/shluch/shluch-lectures/shluch-lectures.component';
 import { ShluchimComponent } from './core/shluch/shluchim/shluchim.component';
@@ -17,7 +18,7 @@ import { UsersComponent } from './users/users.component';
 const defaultRoute = terms.home;
 const routes: Routes = [
   { path: defaultRoute, component: HomeComponent, canActivate: [NotAuthenticatedOrNoRolesGuard] },
-  { path: terms.currentState, component: UsersComponent, canActivate: [ManagerOrAdminGuard] },
+  { path: terms.currentState, component: ManagerRequestsComponent, canActivate: [ManagerOrAdminGuard] },
   { path: terms.shluchim, component: ShluchimComponent, canActivate: [ManagerOrAdminGuard] },
   { path: terms.avrechim, component: AvrechimComponent, canActivate: [ManagerOrAdminGuard] },
   { path: terms.userAccounts, component: UsersComponent, canActivate: [AdminGuard] },

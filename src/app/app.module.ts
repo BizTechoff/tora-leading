@@ -22,6 +22,7 @@ import { InputAreaComponent } from './common/popup/input-area/input-area.compone
 import { YesNoQuestionComponent } from './common/popup/yes-no-question/yes-no-question.component';
 import { AvrechDetailsComponent } from './core/avrech/avrech-details/avrech-details.component';
 import { AvrechimComponent } from './core/avrech/avrechim/avrechim.component';
+import { ManagerRequestsComponent } from './core/manager/manager-requests/manager-requests.component';
 import { ShluchDetailsComponent } from './core/shluch/shluch-details/shluch-details.component';
 import { ShluchLecturesComponent } from './core/shluch/shluch-lectures/shluch-lectures.component';
 import { ShluchimComponent } from './core/shluch/shluchim/shluchim.component';
@@ -29,6 +30,7 @@ import { HomeComponent } from './home/home.component';
 import { AdminGuard, AvrechGuard, ManagerGuard, ManagerOrAdminGuard, NotAuthenticatedOrNoRolesGuard, ShluchGuard } from "./users/AuthGuard";
 import { UsersComponent } from './users/users.component';
 
+import { ChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,8 @@ import { UsersComponent } from './users/users.component';
     AvrechimComponent,
     ShluchDetailsComponent,
     AvrechDetailsComponent,
-    ShluchLecturesComponent
+    ShluchLecturesComponent,
+    ManagerRequestsComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import { UsersComponent } from './users/users.component';
     MatIconModule,
     MatMenuModule,
     MatExpansionModule,
-    RemultModule
+    RemultModule,
+    ChartsModule 
   ],
   providers: [DialogService, AdminGuard, ManagerGuard,
     ShluchGuard, AvrechGuard, ManagerOrAdminGuard, NotAuthenticatedOrNoRolesGuard],

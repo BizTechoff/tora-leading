@@ -5,7 +5,7 @@ import { Course } from '../app/core/course/course';
 import { Lecture } from '../app/core/lecture/lecture';
 import { LectureMonth } from '../app/core/lecture/lectureMonth';
 import { Questionnaire } from '../app/core/questionnaire/questionnaire';
-import { GlobalParam } from '../app/globals';
+import { checkIfUserApprooved, GlobalParam } from '../app/globals';
 import { SignInController } from '../app/users/SignInController';
 import { SignUpController } from '../app/users/SignUpController';
 import { UpdatePasswordController } from '../app/users/UpdatePasswordController';
@@ -22,11 +22,14 @@ export const api = remultExpress({
         // return undefined;
     },
     initRequest: async remult => {
-        let u = await remult.repo(User).findId(remult.user.id)
-        if (!u) {
-            throw 'User NOT FOUND'
-        }
-        GlobalParam.allowToStart = u.allowToStart ?? false
-        console.log('GlobalParam.allowToStart = ', GlobalParam.allowToStart)
+        console.log('initRequest')
+        // await checkIfUserApprooved(remult)
+        // console.log('remult.user.id', remult.user.id??"NULL")
+        // let u = await remult.repo(User).findId(remult.user.id)
+        // if (!u) {
+        //     throw 'User NOT FOUND'
+        // }
+        // GlobalParam.allowToStart = u.allowToStart ?? false
+        // console.log('GlobalParam.allowToStart = ', GlobalParam.allowToStart)
     }
 });

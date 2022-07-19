@@ -8,10 +8,10 @@
       <h2 style="display:flex;justify-content: center;">שלום {{ remult.authenticated() ? remult.user.name : ' - ' }}
         <span style="color: green;">{{ remult.authenticated() ? '' : 'לכניסה יש ללחוץ למעלה' }}</span>
       </h2>
-      <h2 *ngIf="this.registeredOk()" style="display:flex;justify-content: center;">חדשות שלנו..</h2>
+      <h2 *ngIf="this.allowToStart || !remult.authenticated()" style="display:flex;justify-content: center;">חדשות שלנו..</h2>
       <!-- *ngIf="args.helpText"> -->
-      <div *ngIf="!this.registeredOk() && this.remult.authenticated()">
-        <div style="
+      <div *ngIf="!this.allowToStart && this.remult.authenticated()">
+        <div style=" 
           text-align: center;
           font-weight: bold; 
           font-size: xx-large; 

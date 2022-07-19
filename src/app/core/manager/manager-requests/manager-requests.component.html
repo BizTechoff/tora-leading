@@ -1,0 +1,60 @@
+<div class="full-page">
+    <div class="header">
+        <div style="display: flex; flex-direction: column; justify-content: space-between; ">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+                <div style="width: 100%;">
+                    <data-control [field]='this.$.search'></data-control>
+                </div>
+            </div>
+            <!-- <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+          <button style="width: 100%;" mat-raised-button color='primary' (click)="upsertUser()">
+            <mat-icon>add</mat-icon>
+            <mat-label> {{ this.terms.addShluch }} </mat-label>
+          </button>
+        </div> -->
+        </div>
+    </div>
+
+    <div class="grow-item">
+        <canvas baseChart [colors]="pieChartColors" [data]="pieChartDataStatuses"
+                    [labels]="pieChartLabelsStatuses" [chartType]="pieChartType" [options]="pieChartOptionsByStatuses"
+                    [plugins]="pieChartPlugins" [legend]="pieChartLegend"
+                    (chartClick)="chartClicked(this.filterBy.status, $event)">
+                </canvas>
+    </div>
+
+    <div class="grow-item">
+        <!-- <div style="display: flex; flex-direction: column; justify-content: space-evenly; flex-grow: 0; "> -->
+        <h2>ממתינים לאישור הרשמה</h2>
+        <data-grid [settings]="registers"></data-grid>
+
+    </div>
+
+    <div class="grow-item">
+        <!-- <div style="display: flex; flex-direction: column; justify-content: space-evenly; flex-grow: 0; "> -->
+
+        <h2>ממתינים לתשלום</h2>
+        <data-grid [settings]="paying"></data-grid>
+    </div>
+
+
+    <!-- <div class="grow-item"> -->
+    <!-- <div style="display: flex; flex-direction: column; justify-content: space-evenly; flex-grow: 0; "> -->
+    <!-- <h2>ממתינים לאישור הרשמה</h2>
+            <data-grid [settings]="registers"></data-grid>
+            <h2>ממתינים לתשלום</h2>
+            <data-grid [settings]="paying"></data-grid> -->
+    <!-- </div> -->
+    <!-- <div style="display: flex; flex-direction: column; justify-content: space-evenly; ">
+            <div style="display: flex; flex-direction: column; justify-content: first baseline; ">
+                <h2>ממתינים לאישור הרשמה</h2>
+                <data-grid [settings]="registers"></data-grid>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: first baseline; ">
+                <h2>ממתינים לתשלום</h2>
+                <data-grid [settings]="paying"></data-grid>
+            </div>
+        </div> -->
+
+    <!-- </div> -->
+</div>

@@ -26,7 +26,14 @@ import { UserStatus } from "./userStatus";
                     : { id: remult.user.id }// need id$ ? whats diff ?
         options.saving = async (user) => {
             if (isBackend()) {
-                if (user._.isNew()) {
+                console.log('remult.user.roles.length', remult.user.roles.length)
+                if (!(user.admin || user.manager || user.shluch || user.avrech)) {
+                    user.$.shluch.error = terms.UserRoleNOTSET
+                    user.$.admin.error = terms.UserRoleNOTSET
+                    user.$.manager.error = terms.UserRoleNOTSET
+                    user.$.avrech.error = terms.UserRoleNOTSET
+                }
+                else if (user._.isNew()) {
                     user.createDate = new Date();
                     if (!user.password || user.password.trim().length === 0) {
                         await user.hashAndSetPassword(process.env['DEFAULT_PASSWORD']!);

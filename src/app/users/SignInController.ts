@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { BackendMethod, Controller, ControllerBase, Fields, isBackend, UserInfo, Validators } from "remult";
+import { BackendMethod, Controller, ControllerBase, Fields, UserInfo, Validators } from "remult";
 import { terms } from "../terms";
 import { Roles } from "./roles";
 import { User } from "./user";
@@ -41,7 +41,8 @@ export class SignInController extends ControllerBase {
                 u = await userRepo.insert({
                     name: this.user,
                     admin: true,
-                    mobile: process.env['ADMIN_MOBILE']
+                    mobile: process.env['ADMIN_MOBILE'],
+                    allowToStart: true
                 })
                 await u.hashAndSetPassword(this.password)
                 await u.save()
