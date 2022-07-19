@@ -6,9 +6,9 @@ import { Remult } from 'remult';
 import { AuthService } from './auth.service';
 import { DialogService } from './common/popup/dialog';
 import { InputAreaComponent } from './common/popup/input-area/input-area.component';
+import { GlobalParam } from './globals';
 import { terms } from './terms';
 import { SignInController } from './users/SignInController';
-import { SignUpController } from './users/SignUpController';
 import { UpdatePasswordController } from './users/UpdatePasswordController';
 import { User } from './users/user';
 
@@ -19,6 +19,7 @@ import { User } from './users/user';
 })
 export class AppComponent implements OnInit {
   alloedRegister = true
+  allowToStart = false
 
   constructor(
     public router: Router,
@@ -29,6 +30,16 @@ export class AppComponent implements OnInit {
     public auth: AuthService) {
   }
   terms = terms;
+
+  async ngOnInit(): Promise<void> {
+    // let u = await this.remult.repo(User).findId(this.remult.user.id, { useCache: false });
+    this.allowToStart = GlobalParam.allowToStart// u?.allowToStart ?? false
+    console.log(1)
+    if (this.allowToStart) {
+      console.log(2)
+      await this.navigateByRoleIfFirstRouting()
+    }
+  }
 
   async signIn(name = '') {
     const signIn = new SignInController(this.remult);
@@ -44,25 +55,52 @@ export class AppComponent implements OnInit {
   }
 
   async signUp() {
-    const signUp = new SignUpController(this.remult);
-    openDialog(InputAreaComponent, i => i.args = {
-      title: terms.signUp,
-      object: signUp,
-      ok: async () => {
-        let uid = await signUp.signUp()
-        // await sendSms(Sms.ThanksForRegistering, uid)
-        this.dialogService.info('נרשמת בהצלחה. מסרון עם סיסמת כניסה נשלח לסלולרי שלך')
-        this.signIn(signUp.user)
-      }
-    });
+    let title = 'הרשמה לתוכנית'
+    let u = this.remult.repo(User).create()
+    u.shluch = true
+    let changed = await openDialog(InputAreaComponent,
+      dlg => dlg.args = {
+        title: title,
+        fields: () => [
+          [
+            { field: u.$.name, caption: 'שם פרטי', width: '100%' },
+            { field: u.$.fname, caption: 'שם משפחה', width: '100%' }
+          ],
+          u.$.marriageDate,
+          u.$.missionLocation,
+          u.$.missionDate,
+          u.$.email,
+          [
+            { field: u.$.mobile, width: '100%' },
+            { field: u.$.phone, width: '100%' }
+          ],
+          u.$.remarks
+        ],
+        ok: async () => {
+          await u.save()
+        }
+      },
+      dlg => dlg ? dlg.ok : false)
+
+    this.dialogService.info('נרשמת בהצלחה. מסרון עם סיסמת כניסה נשלח לסלולרי שלך')
+    this.signIn(u.name)
+
+    // const signUp = new SignUpController(this.remult);
+    // openDialog(InputAreaComponent, i => i.args = {
+    //   title: terms.signUp,
+    //   object: signUp,
+    //   ok: async () => {
+    //     let uid = await signUp.signUp()
+    //     // await sendSms(Sms.ThanksForRegistering, uid)
+    //     this.dialogService.info('נרשמת בהצלחה. מסרון עם סיסמת כניסה נשלח לסלולרי שלך')
+    //     this.signIn(signUp.user)
+    //   }
+    // });
   }
 
-  registeredOk(){
-    return this.remult.authenticated() && this.remult.user.roles.length > 0
-  }
-
-  async ngOnInit(): Promise<void> {
-    await this.navigateByRoleIfFirstRouting()
+  registeredOk() {
+    return this.allowToStart
+    // return this.remult.authenticated() && this.remult.user.roles.length > 0
   }
 
   async navigateByRoleIfFirstRouting() {
@@ -112,14 +150,26 @@ export class AppComponent implements OnInit {
   }
 
   async updateInfo() {
-    let user = await this.remult.repo(User).findId(this.remult.user.id);
+    let u = await this.remult.repo(User).findId(this.remult.user.id, { useCache: false });
     openDialog(InputAreaComponent, i => i.args = {
       title: terms.updateInfo,
       fields: () => [
-        user.$.name
+        [
+          { field: u.$.name, caption: 'שם פרטי', width: '100%' },
+          { field: u.$.fname, caption: 'שם משפחה', width: '100%' }
+        ],
+        u.$.marriageDate,
+        u.$.missionLocation,
+        u.$.missionDate,
+        u.$.email,
+        [
+          { field: u.$.mobile, width: '100%' },
+          { field: u.$.phone, width: '100%' }
+        ],
+        u.$.remarks
       ],
       ok: async () => {
-        await user._.save();
+        await u._.save();
       }
     });
   }

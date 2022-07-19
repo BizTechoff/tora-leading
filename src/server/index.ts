@@ -24,7 +24,7 @@ async function startup() {
     app.use(api);
     app.use('/api/docs', swaggerUi.serve,
         swaggerUi.setup(api.openApiDoc({ title: 'tora-leading' })));
-
+ 
     app.use(express.static('dist/tora-leading'));
     app.use('/*', async (req, res) => {
         try {

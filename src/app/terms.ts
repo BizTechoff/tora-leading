@@ -1,9 +1,9 @@
 export const terms = {
     appName: 'מנהיגות תורנית',
-    appVersion: '2022.07.12',
+    appVersion: '2022.07.13',
     name: 'שם',
-    requiredField: 'שדה חובה',
-    installtionNameRequired: 'תיאור ההתקנה שדה חובה',
+    requiredField: 'חובה', 
+    uniqueField:'קיים',
     status: 'סטטוס',
     coordinstall: 'תיאום התקנות',
     missions: 'משימות',

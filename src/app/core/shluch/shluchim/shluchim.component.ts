@@ -89,14 +89,18 @@ export class ShluchimComponent implements OnInit {
       dlg => dlg.args = {
         title: title,
         fields: () => [
-          [{field:u.$.name, caption:'שם פרטי'},
-          u.$.fname],
+          [
+            { field: u.$.name, caption: 'שם פרטי', width: '100%' },
+            { field: u.$.fname, caption: 'שם משפחה', width: '100%' }
+          ],
           u.$.marriageDate,
           u.$.missionLocation,
           u.$.missionDate,
           u.$.email,
-          [u.$.mobile,
-          u.$.phone],
+          [
+            { field: u.$.mobile, width: '100%' },
+            { field: u.$.phone, width: '100%' }
+          ],
           u.$.remarks
         ],
         ok: async () => {

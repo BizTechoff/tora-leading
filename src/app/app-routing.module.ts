@@ -15,7 +15,7 @@ import { AdminGuard, AvrechGuard, ManagerOrAdminGuard, NotAuthenticatedOrNoRoles
 import { UsersComponent } from './users/users.component';
 
 const defaultRoute = terms.home;
-const routes: Routes = [// },//, canActivate: [NotAuthenticatedOrNoRolesGuard] },//
+const routes: Routes = [
   { path: defaultRoute, component: HomeComponent, canActivate: [NotAuthenticatedOrNoRolesGuard] },
   { path: terms.currentState, component: UsersComponent, canActivate: [ManagerOrAdminGuard] },
   { path: terms.shluchim, component: ShluchimComponent, canActivate: [ManagerOrAdminGuard] },

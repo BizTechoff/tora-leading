@@ -43,17 +43,17 @@ export class User extends IdEntity {
 
     @DataControl<User, string>({ width: '118' })
     @Fields.string<User>({
-        validate: [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')],
+        validate: [Validators.required.withMessage(terms.requiredField), Validators.uniqueOnBackend.withMessage(terms.uniqueField)],
         caption: terms.username
     })
     name = '';
 
     @DataControl<User, string>({ width: '118' })
-    @Fields.string((options, remult) => {
+    @Fields.string<User>((options, remult) => {
         options.validate = (row, col) => {
             if ((row.shluch || row.avrech) && !remult.user.isAdmin) {
                 if (!col || !col.value || col.value.trim().length === 0) {
-                    col.error = 'שדה חובה'
+                    col.error = terms.requiredField
                 }
             }
         }
@@ -62,8 +62,8 @@ export class User extends IdEntity {
     fname = ''
 
     @DataControl<User, string>({ width: '108' })
-    @Fields.string((options, remult) => {
-        options.validate = [Validators.required.withMessage('שדה חובה'), Validators.uniqueOnBackend.withMessage('קיים')]
+    @Fields.string<User>((options, remult) => {
+        options.validate = [Validators.required.withMessage(terms.requiredField), Validators.uniqueOnBackend.withMessage('קיים')]
         options.caption = terms.mobile
         options.valueConverter = {
             fromDb: col => mobileFromDb(mobileToDb(col) as string),
@@ -72,9 +72,9 @@ export class User extends IdEntity {
     })
     mobile = ''
 
-    @Fields.string((options, remult) => {
+    @Fields.string<User>((options, remult) => {
         options.caption = 'טלפון'
-        // validate = Validators.required.withMessage('שדה חובה')
+        // validate = Validators.required.withMessage(terms.requiredField)
     })
     phone = ''
 
@@ -83,7 +83,7 @@ export class User extends IdEntity {
         options.validate = (row, col) => {
             if ((row.shluch || row.avrech) && !remult.user.isAdmin) {
                 if (!col || !col.value || col.value.trim().length === 0) {
-                    col.error = 'שדה חובה'
+                    col.error = terms.requiredField
                 }
                 else {
                     let v = col.value.trim().toLowerCase()
@@ -105,39 +105,59 @@ export class User extends IdEntity {
     })
     email = ''
 
-    @Fields.dateOnly((options, remult) => {
-        options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
+    @Fields.dateOnly<User>((options, remult) => {
+        // options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
         options.caption = 'תאריך נישואין'
         options.validate = (row, col) => {
+            // if (isBackend()) {
+            console.log('marriageDate.value', col.value)
+            console.log('marriageDate.value.year', col.value?.getFullYear() ?? 'NULL')
+            // }
+            // console.log(row,col)
             if (row.shluch && !remult.user.isAdmin) {
-                if (!col || !col.value || col.value.getFullYear() <= 1900) {
-                    col.error = 'שדה חובה'
+                let minYear = new Date().getFullYear() - 120 + 18/*marry*///=102=2022-102=1920
+                console.log(2, 'marriageDate.year', row?.$.marriageDate?.value?.getFullYear() ?? 'NULL')
+                if (row.$.marriageDate?.value?.getFullYear() >= minYear) {
+                }
+                else {
+                    row.$.marriageDate.error = terms.requiredField
                 }
             }
         }
     })
     marriageDate!: Date
 
-    @Fields.string((options, remult) => {
-        options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
+    @Fields.string<User>((options, remult) => {
+        // options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
         options.caption = 'מיקום השליחות'
         options.validate = (row, col) => {
             if (row.shluch && !remult.user.isAdmin) {
-                if (!col || !col.value || col.value.trim().length === 0) {
-                    col.error = 'שדה חובה'
+                if (row.missionLocation?.trim().length > 0) {
+                }
+                else {
+                    col.error = terms.requiredField
                 }
             }
         }
     })
     missionLocation = ''
 
-    @Fields.dateOnly((options, remult) => {
-        options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
+    @Fields.dateOnly<User>((options, remult) => {
+        // options.allowApiUpdate = Roles.admin || Roles.manager || Roles.shluch
         options.caption = 'תאריך יציאה לשליחות'
         options.validate = (row, col) => {
+            // if (isBackend()) {
+            console.log('missionDate.value', col.value)
+            console.log('missionDate.value.year', col.value?.getFullYear() ?? 'NULL')
+            // }
+            // console.log(row,col)
             if (row.shluch && !remult.user.isAdmin) {
-                if (!col || !col.value || col.value.getFullYear() <= 1900) {
-                    col.error = 'שדה חובה'
+                let minYear = new Date().getFullYear() - 120 + 18/*marry*///=102=2022-102=1920
+                console.log(2, 'missionDate.year', row?.$.missionDate?.value?.getFullYear() ?? 'NULL')
+                if (row.$.missionDate?.value?.getFullYear() >= minYear) {
+                }
+                else {
+                    row.$.missionDate.error = terms.requiredField
                 }
             }
         }
@@ -145,23 +165,23 @@ export class User extends IdEntity {
     missionDate!: Date
 
     @DataControl<User, string>({ width: '118' })
-    @Fields.string((options, remult) => {
+    @Fields.string<User>((options, remult) => {
         options.allowApiUpdate = Roles.admin || Roles.manager || Roles.avrech
         options.caption = 'שם ישיבה'
         options.validate = (row, col) => {
             if (row.avrech && !remult.user.isAdmin) {
                 if (!col || !col.value || col.value.trim().length === 0) {
-                    col.error = 'שדה חובה'
+                    col.error = terms.requiredField
                 }
             }
         }
     })
     yeshiva = ''
 
-    @Fields.string({ includeInApi: false })
+    @Fields.string<User>({ includeInApi: false })
     password = '';
 
-    @Fields.string({ caption: 'הערות' })
+    @Fields.string<User>({ caption: 'הערות' })
     remarks = '';
 
     @DataControl<User, boolean>({
@@ -174,7 +194,7 @@ export class User extends IdEntity {
             }
         }
     })
-    @Fields.boolean({
+    @Fields.boolean<User>({
         allowApiUpdate: Roles.admin,
         caption: terms.admin
     })
@@ -190,7 +210,7 @@ export class User extends IdEntity {
             }
         }
     })
-    @Fields.boolean({
+    @Fields.boolean<User>({
         allowApiUpdate: Roles.admin,
         caption: terms.manager
     })
@@ -206,8 +226,8 @@ export class User extends IdEntity {
             }
         }
     })
-    @Fields.boolean({
-        allowApiUpdate: [Roles.admin, Roles.manager],
+    @Fields.boolean<User>({
+        // allowApiUpdate: [Roles.admin, Roles.manager],
         caption: terms.shluch
     })
     shluch = false;
@@ -222,13 +242,13 @@ export class User extends IdEntity {
             }
         }
     })
-    @Fields.boolean({
+    @Fields.boolean<User>({
         allowApiUpdate: [Roles.admin, Roles.manager],
         caption: terms.avrech
     })
     avrech = false;
 
-    @Fields.date({
+    @Fields.date<User>({
         allowApiUpdate: false
     })
     createDate = new Date();
@@ -236,7 +256,7 @@ export class User extends IdEntity {
     @DataControl<User, boolean>({
         width: '88'
     })
-    @Fields.boolean({
+    @Fields.boolean<User>({
         // allowApiUpdate: false
         allowApiUpdate: [Roles.admin, Roles.manager],
         caption: 'מאושר להתחיל'
@@ -246,7 +266,7 @@ export class User extends IdEntity {
     @DataControl<User, Date>({
         width: '88'
     })
-    @Fields.date({
+    @Fields.date<User>({
         // allowApiUpdate: false
         allowApiUpdate: [Roles.admin, Roles.manager],
         caption: 'התחיל ב'
@@ -256,7 +276,7 @@ export class User extends IdEntity {
     @DataControl<User, boolean>({
         width: '88'
     })
-    @Fields.boolean({
+    @Fields.boolean<User>({
         allowApiUpdate: [Roles.admin, Roles.manager],
         caption: 'מאושר לתוכנית'
     })

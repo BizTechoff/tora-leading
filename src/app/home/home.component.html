@@ -8,9 +8,9 @@
       <h2 style="display:flex;justify-content: center;">שלום {{ remult.authenticated() ? remult.user.name : ' - ' }}
         <span style="color: green;">{{ remult.authenticated() ? '' : 'לכניסה יש ללחוץ למעלה' }}</span>
       </h2>
-      <h2 *ngIf="!this.userNotAllowedYet()" style="display:flex;justify-content: center;">חדשות שלנו..</h2>
+      <h2 *ngIf="this.registeredOk()" style="display:flex;justify-content: center;">חדשות שלנו..</h2>
       <!-- *ngIf="args.helpText"> -->
-      <div *ngIf="this.userNotAllowedYet()">
+      <div *ngIf="!this.registeredOk() && this.remult.authenticated()">
         <div style="
           text-align: center;
           font-weight: bold; 
@@ -19,9 +19,9 @@
           background-color: transparent;" class="help-text">
           <div style="color: orangered;">{{ 'הינך בהמתנה לאישור הרשמתך לתוכנית' }}</div>
           <br>
-          <div style="font-size: large;">{{ 'הודעה תשלח למספר ' + this.mobile + ' כאשר יתקבל אישור' }}</div>
+          <div style="font-size: large;">{{ 'הודעה תשלח למספר ' + this.mobile + ' בקבלת האישור' }}</div>
           <!-- <br> -->
-          <div style="font-size: large;">לפרטים נוספים ניתן לשלוח <a href="https://wa.me/0559578688?text=" target="_blank">ווטסאפ</a> או <a href="mailto:toras@colelchabad.org" target="_blank">אימייל</a></div>
+          <div style="font-size: large;">לפרטים נוספים ניתן לשלוח <a href="https://wa.me/0559578688?text=אשמח לפרטים נוספים" target="_blank">ווטסאפ</a> או <a href="mailto:toras@colelchabad.org?subject=אשמח לפרטים נוספים" target="_blank">אימייל</a></div>
           <!-- <div>{{ 'לפרטים ניתן לשלוח או למייל' }}</div> -->
         </div>
       </div>

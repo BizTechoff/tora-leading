@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BusyService } from '@remult/angular';
 import { Remult } from 'remult';
 import { DialogService } from '../common/popup/dialog';
-import { User } from '../users/user';
+import { GlobalParam } from '../globals';
 
 @Component({
   selector: 'app-home',
@@ -11,17 +10,23 @@ import { User } from '../users/user';
 })
 export class HomeComponent implements OnInit {
 
+  allowToStart = false
   mobile = ''
   constructor(public remult: Remult, private dialog: DialogService) { }
 
   async ngOnInit() {
-    if(this.remult.authenticated() && this.remult.user.roles.length === 0) {
-      this.mobile = (await this.remult.repo(User).findId(this.remult.user.id)).mobile
+    // let u = await this.remult.repo(User).findId(this.remult.user.id, { useCache: false })
+    this.allowToStart = GlobalParam.allowToStart// u?.allowToStart ?? false
+    console.log(11)
+    if (!this.allowToStart) {
+      console.log(22)
+      this.mobile = u?.mobile
     }
   }
 
-  userNotAllowedYet(){
-    return this.remult.authenticated() && this.remult.user.roles.length === 0
+  registeredOk() {
+    return this.allowToStart
+    // return this.remult.authenticated() && this.remult.user.roles.length > 0
   }
 
   showMessage() {

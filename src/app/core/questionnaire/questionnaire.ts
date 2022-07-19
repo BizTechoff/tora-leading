@@ -1,4 +1,5 @@
 import { Allow, Entity, Field, Fields, IdEntity, Validators } from "remult";
+import { terms } from "../../terms";
 import { User } from "../../users/user";
 import { CourseOrganizer } from "../course/courseOrganizer";
 import { CourseType } from "../course/courseType";
@@ -14,26 +15,26 @@ export class Questionnaire extends IdEntity {
 
     @Fields.string({
         caption: 'מיקום השליחות',
-        validate: Validators.required.withMessage('שדה חובה')
+        validate: Validators.required.withMessage(terms.requiredField)
     })
     missionLocation = ''
 
     @Fields.dateOnly({
         caption: 'תאריך השליחות'//,
-        // validate: Validators.required.withMessage('שדה חובה')
+        // validate: Validators.required.withMessage(terms.requiredField)
     })
     missionDate!: Date
 
     @Fields.boolean<Questionnaire>({
         defaultValue: (row) => true,// BUG
         caption: 'אם בעבר נבחנת במבחני רבנות?'//,
-        // validate: Validators.required.withMessage('שדה חובה')
+        // validate: Validators.required.withMessage(terms.requiredField)
     })
     firstTime: boolean = true
  
     @Fields.string({
         caption: 'תיק אישי ברבנות'//,
-        // validate: Validators.required.withMessage('שדה חובה')
+        // validate: Validators.required.withMessage(terms.requiredField)
     })
     caseLink = ''
 
@@ -45,19 +46,19 @@ export class Questionnaire extends IdEntity {
 
     @Fields.string({
         caption: 'באם נרשמת ללימוד דרך מכון, צרף אישור הרשמה'//,
-        // validate: Validators.required.withMessage('שדה חובה')
+        // validate: Validators.required.withMessage(terms.requiredField)
     })
     courseOrganizerLink = ''
 
     @Fields.string({
         caption: 'מדוע הנך מעונין להצטרף לתכנית תורת השליחות?'//,
-        // validate: Validators.required.withMessage('שדה חובה')
+        // validate: Validators.required.withMessage(terms.requiredField)
     })
     whyUHere = ''
 
     @Fields.string({
         caption: 'הערות'//,
-        // validate: Validators.required.withMessage('שדה חובה')
+        // validate: Validators.required.withMessage(terms.requiredField)
     })
     remarks = ''
 

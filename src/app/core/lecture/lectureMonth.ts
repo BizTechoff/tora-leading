@@ -1,5 +1,6 @@
 import { DataControl } from "@remult/angular/interfaces";
 import { Allow, Entity, Field, Fields, IdEntity } from "remult";
+import { terms } from "../../terms";
 import { User } from "../../users/user";
 import { Lecture } from "./lecture";
 import { Months } from "./months";
@@ -23,7 +24,7 @@ export class LectureMonth extends IdEntity {
         caption: 'חודש',
         validate: (row, col) => {
             if (!col || !col.value) {
-                col.error = 'שדה חובה'
+                col.error = terms.requiredField
             }
         }
     })
