@@ -31,6 +31,7 @@ import { AdminGuard, AvrechGuard, ManagerGuard, ManagerOrAdminGuard, NotAuthenti
 import { UsersComponent } from './users/users.component';
 
 import { ChartsModule } from 'ng2-charts';
+import { ManagerReportComponent } from './core/manager/manager-report/manager-report.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,8 @@ import { ChartsModule } from 'ng2-charts';
     ShluchDetailsComponent,
     AvrechDetailsComponent,
     ShluchLecturesComponent,
-    ManagerRequestsComponent
+    ManagerRequestsComponent,
+    ManagerReportComponent
   ],
   imports: [
     BrowserModule,

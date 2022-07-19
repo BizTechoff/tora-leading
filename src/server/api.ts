@@ -20,9 +20,9 @@ export const api = remultExpress({
         // if (process.env['NODE_ENV'] === "production")
         return createPostgresConnection({ configuration: "heroku", sslInDev: process.env['DEV_MODE'] === 'PROD' })
         // return undefined;
-    },
-    initRequest: async remult => {
-        console.log('initRequest')
+    }//,
+    // initRequest: async remult => {
+    //     console.log('initRequest')
         // await checkIfUserApprooved(remult)
         // console.log('remult.user.id', remult.user.id??"NULL")
         // let u = await remult.repo(User).findId(remult.user.id)
@@ -31,5 +31,5 @@ export const api = remultExpress({
         // }
         // GlobalParam.allowToStart = u.allowToStart ?? false
         // console.log('GlobalParam.allowToStart = ', GlobalParam.allowToStart)
-    }
+    // }
 });

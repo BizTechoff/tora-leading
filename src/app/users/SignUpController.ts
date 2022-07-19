@@ -2,7 +2,7 @@ import { BackendMethod, Controller, ControllerBase, Fields, Validators } from "r
 import { terms } from "../terms";
 import { User } from "./user";
 
-@Controller('signIn')
+@Controller('signUp')
 export class SignUpController extends ControllerBase {
 
     @Fields.string({
