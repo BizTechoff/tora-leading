@@ -1,0 +1,96 @@
+<mat-dialog-content>
+    <div class="header">
+        <div style="display: flex; flex-direction: column; justify-content: space-between; ">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+                <div style="width: 100%;">
+                    <h3>
+                        <mat-label> {{ this.args.title }} </mat-label>
+                    </h3>
+                </div>
+                <div style="width: auto">
+                    <button mat-flat-button tabindex="-1"
+                        style="vertical-align: top; background-color: transparent; color: blue;" (click)="close()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+                <div class="help-text" style="width: 100%;">
+                    לתשומת לבך, יש לציין את הנושאים כפי שמופיעים בגליון הציונים
+                </div>
+                <!-- <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+                    <button style="width: auto; margin-bottom: 10px;" tabindex="-1" mat-flat-button (click)="addLecture()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div> -->
+            </div>
+            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+                <button style="width: 100%;" mat-raised-button color='primary' (click)="addLecture()">
+                    <mat-label> {{ this.terms.addLecture }} </mat-label>
+                </button>
+            </div>
+            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+                <!-- <button style="width: 100%;" mat-raised-button color='primary' (click)="upsertUser()">
+                    <mat-icon>add</mat-icon>
+                    <mat-label> {{ this.terms.addShluch }} </mat-label>
+                </button> -->
+            </div>
+        </div>
+    </div>
+    <div *ngFor="let l of this.lectures"
+        style="display: flex; flex-direction: column; justify-content: space-between; margin: 3px;">
+        <!-- <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h1 > {{ l.$.course.value.caption }}</h1>  
+            
+            <mat-icon>delete</mat-icon>
+        </div> -->
+        <h1 > {{ l.$.course.value.caption }}</h1>  
+            
+            <mat-icon>delete</mat-icon>
+            <br>
+        <h3> {{ '('+l.year.caption + ' ' +l.month.caption+')' }}</h3>
+        <!-- <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h3 style="width: 100%;">
+                {{ l.year.caption }}
+                {{ l.month.caption }}
+            </h3>
+        </div> -->
+    </div>
+    <mat-card *ngFor="let l of this.lectures">
+        <!-- <button mat-flat-button (click)="this.remove(l.id)">
+            <mat-icon>delete</mat-icon>
+        </button> -->
+        <!-- <mat-card-title> {{ l.$.course.value.caption }} </mat-card-title>
+        <mat-card-actions>
+            <mat-icon>delete</mat-icon>
+        </mat-card-actions> -->
+        <div style="margin: 5px; display: flex; flex-direction: row; justify-content: space-between; flex-grow: 1;">
+            <!-- <data-control [field]="l.$.course" [notReadonly]="false"></data-control> -->
+            <!-- <data-control [field]="l.$.year"></data-control>
+            <data-control [field]="l.$.month"></data-control>
+            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+                <a> {{ l.$.courseGradesLink.displayValue }} </a>
+            </div> -->
+        </div>
+        <!-- <data-grid [settings]="users"></data-grid> -->
+        <!-- <data-control [field]="this.lecture.$.shluch"></data-control>
+        <data-control [field]="this.lecture.$.name"></data-control>
+        <data-control [field]="this.lecture.$.months"></data-control>
+        <data-control [field]="this.lecture.$.lectures"></data-control> -->
+    </mat-card>
+    <div class="footer">
+        <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+            <div class="help-text" style="width: 100%;">
+                לתשומת לבך, בסיום רשימת הנושאים יש להעלות גליון ציונים מהרבנות התואם לנושאים שציינת
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+            <button style="width: 100%;" mat-raised-button color='primary' (click)="addLecturesGrades()">
+                <mat-label> {{ this.terms.addLecturesGrades }} </mat-label>
+            </button>
+        </div>
+        <!-- <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+        <a href=""></a>
+        </div> -->
+    </div>
+</mat-dialog-content>

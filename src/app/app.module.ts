@@ -32,6 +32,7 @@ import { UsersComponent } from './users/users.component';
 
 import { ChartsModule } from 'ng2-charts';
 import { ManagerReportComponent } from './core/manager/manager-report/manager-report.component';
+import { LectureDetailsComponent } from './core/lecture/lecture-details/lecture-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,8 @@ import { ManagerReportComponent } from './core/manager/manager-report/manager-re
     AvrechDetailsComponent,
     ShluchLecturesComponent,
     ManagerRequestsComponent,
-    ManagerReportComponent
+    ManagerReportComponent,
+    LectureDetailsComponent
   ],
   imports: [
     BrowserModule,

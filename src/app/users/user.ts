@@ -22,7 +22,7 @@ import { UserStatus } from "./userStatus";
             remult.user.isAdmin
                 ? {}
                 : remult.user.isManager
-                    ? { $or: [{ shluch: true }, { avrech: true }] }
+                    ? { $or: [{ id: remult.user.id }, { shluch: true }, { avrech: true }] }
                     : { id: remult.user.id }// need id$ ? whats diff ?
         options.saving = async (user) => {
             if (isBackend()) {

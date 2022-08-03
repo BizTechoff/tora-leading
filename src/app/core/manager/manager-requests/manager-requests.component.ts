@@ -137,7 +137,7 @@ export class ManagerRequestsComponent implements OnInit {
 
     columnSettings: row => [
       { field: row.shluch, getValue: (row, col) => row?.$.shluch?.value?.name },
-      { field: row.lecture, getValue: (row, col) => row?.$.lecture?.value?.name },
+      { field: row.lecture, getValue: (row, col) => row?.$.lecture?.value?.course },
       row.month,
       row.done,
       row.payed
@@ -164,6 +164,10 @@ export class ManagerRequestsComponent implements OnInit {
   }
 
   async refresh() {
+    
+    await this.registers.reloadData()
+    await this.paying.reloadData()
+    
     this.pieChartLabelsStatuses = [] as Label[]
     this.pieChartDataStatuses = [] as SingleDataSet
     let months: { caption: string, count: number }[] = []
@@ -181,15 +185,13 @@ export class ManagerRequestsComponent implements OnInit {
     //   label = label;
     // }
     // label += ` (${6})`;// ` (${r.count})`;
-    this.pieChartLabelsStatuses.push(months.map(s => s.caption));//label.replace('הסתיים ב', ''));
-    this.pieChartDataStatuses.push(months.map(s => s.count));//r.count);
+    this.pieChartLabelsStatuses.push(months.map(m => m.caption));//label.replace('הסתיים ב', ''));
+    this.pieChartDataStatuses.push(months.map(m => m.count));//r.count);
 
     console.log('months.map(s => s.caption)', JSON.stringify(months))
     console.log('this.pieChartLabelsStatuses', JSON.stringify(this.pieChartLabelsStatuses))
     console.log('this.pieChartDataStatuses', JSON.stringify(this.pieChartDataStatuses))
 
-    await this.registers.reloadData()
-    await this.paying.reloadData()
   }
 
   async upsertUser(id = '') {

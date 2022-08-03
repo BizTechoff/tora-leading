@@ -6,10 +6,14 @@
                     <data-control [field]='this.$.search'></data-control>
                 </div>
             </div>
-            <div style="display: flex; flex-direction: row; justify-content: space-between; ">
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
                 <button style="width: 100%;" mat-raised-button color='primary' (click)="addLecture()">
                     <mat-icon>add</mat-icon>
                     <mat-label> {{ this.terms.addLecture }} </mat-label>
+                </button>
+                <button style="width: 100%;" mat-raised-button color='primary' (click)="addLectureExists()">
+                    <mat-icon>add</mat-icon>
+                    <mat-label> {{ this.terms.addLectureExists }} </mat-label>
                 </button>
             </div>
         </div>
@@ -55,8 +59,8 @@
         0px 0px 10px 0px #9b9b9b,
         0 1px 1px 0 #9b9b9b,
         0 1px 3px 0 #9b9b9b;" *ngFor="let l of this.lectures">
-            <mat-card-title> {{ l.name }} </mat-card-title>
-            <mat-card-subtitle> {{ 'סה"כ בוצעו: 8 חודשים מתוך ' + l.months + ' חודשים' }} </mat-card-subtitle>
+            <mat-card-title> {{ l.course }} </mat-card-title>
+            <mat-card-subtitle> {{ 'סה"כ בוצעו: 8 חודשים מתוך ' + l.month + ' חודשים' }} </mat-card-subtitle>
             <!-- <div style="background-color: red; vertical-align: middle; display: flex; flex-direction: row; justify-content: space-evenly; ">
                 <mat-card-subtitle> {{ 'בוצעו: ' + 8 + ' חודשים' }} </mat-card-subtitle>
                 <mat-card-subtitle> {{ 'שולמו: ' + 8 + ' חודשים' }} </mat-card-subtitle>

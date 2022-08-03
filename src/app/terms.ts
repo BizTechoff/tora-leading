@@ -54,7 +54,9 @@ export const terms = {
     addShluch: 'הוספת שליח',
     addAvrech: 'הוספת אברך',
     addCourse: 'הוספת קורס',
-    addLecture: 'הוספת נושא',
+    addLecture: 'הוספת נושא חדש',
+    addLectureExists:'הוספת גיליון קיים',
+    addLecturesGrades:'העלאת גיליון ציונים',
     sendSigninDetails: 'שלח פרטי התחברות'
 }
 

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { openDialog } from '@remult/angular';
 import { DataControl, GridSettings } from '@remult/angular/interfaces';
-import { Fields, getFields, Remult } from 'remult';
+import { Fields, getFields, Remult, ValueListItem } from 'remult';
 import { InputAreaComponent } from '../../../common/popup/input-area/input-area.component';
 import { terms } from '../../../terms';
 import { User } from '../../../users/user';
 import { Lecture } from '../../lecture/lecture';
+import { LectureDetailsComponent } from '../../lecture/lecture-details/lecture-details.component';
 import { LectureMonth } from '../../lecture/lectureMonth';
 
 @Component({
@@ -86,8 +87,35 @@ export class ShluchLecturesComponent implements OnInit {
         title: 'הוספת נושא',
         ok: async () => { await add.save() },
         fields: () => [
-          add.$.name,
-          add.$.months
+          add.$.course,
+          add.$.month
+        ]
+      },
+      dlg => dlg ? dlg.ok : false)
+    if (changed) {
+      await this.refresh()
+    }
+  }
+
+  async addLectureExists() {
+    let changed = await openDialog(LectureDetailsComponent,
+      dlg => dlg.args = { title: 'הוספת נושאים שנבחנת בעבר' },
+      dlg => dlg?.args.changed ?? false)
+    if (changed) {
+      await this.refresh()
+    }
+  }
+
+  async addLectureExists2() {
+    let add = this.remult.repo(Lecture).create()
+    add.shluch = await this.remult.repo(User).findId(this.remult.user.id, { useCache: false })
+    let changed = await openDialog(InputAreaComponent,
+      dlg => dlg.args = {
+        title: 'הוספת נושא',
+        ok: async () => { await add.save() },
+        fields: () => [
+          add.$.month//,
+          // add.$.lectures
         ]
       },
       dlg => dlg ? dlg.ok : false)

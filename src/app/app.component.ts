@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
     // console.log('AppComponent.ngOnInit', GlobalParam.allowToStart)
     // let u = await this.remult.repo(User).findId(this.remult.user.id, { useCache: false });
     // this.allowToStart = GlobalParam.allowToStart// u?.allowToStart ?? false
-    console.log('AppComponent.ngOnInit',this.allowToStart)//??????? NOT TRUE YET !!!!!!!
+    console.log('AppComponent.ngOnInit', this.allowToStart)//??????? NOT TRUE YET !!!!!!!
     // if (this.allowToStart) {
     // //   console.log(2)
     //   await this.navigateByRoleIfFirstRouting()
@@ -128,7 +128,7 @@ export class AppComponent implements OnInit {
 
         if (this.remult.user.isAdmin) {
           console.log(1)
-          this.router.navigateByUrl(encodeURI(terms.userAccounts), {replaceUrl: true})
+          this.router.navigateByUrl(encodeURI(terms.userAccounts), { replaceUrl: true })
         }
         else if (this.remult.user.isManager) {
           console.log(2)
@@ -151,7 +151,7 @@ export class AppComponent implements OnInit {
         }
       }
     }
-    else{
+    else {
       console.log('GlobalParam.allowToStart = false')
       this.router.navigateByUrl(encodeURI(terms.welcome))
     }
@@ -164,6 +164,7 @@ export class AppComponent implements OnInit {
 
   async updateInfo() {
     let u = await this.remult.repo(User).findId(this.remult.user.id, { useCache: false });
+    if (!u) throw `User Id ${this.remult.user.id} NOT FOUND`
     openDialog(InputAreaComponent, i => i.args = {
       title: terms.updateInfo,
       fields: () => [
