@@ -13,8 +13,22 @@ export class CourseType {
     static chosenC = new CourseType('חושן משפט ג')
     static evenAezer = new CourseType('אבן העזר')
     constructor(public caption = '') { this.id = caption }
+    static smachot = new CourseType('שמחות')
+    static mikvaot = new CourseType('מקוואות')
+    static pesachYomtovVeCholamoed = new CourseType('פסח ויו"ט וחוה"מ')
+    static rabanimZvaiim = new CourseType('רבנים צבאיים')
+    static israelMitzvot = new CourseType('מצוות התלויות בארץ')
+    static milaVegerut = new CourseType('מילה וגירות')
+    static holidays = new CourseType('חגים')
+    static psakDin = new CourseType('ניסוח פסק דין')
+    static prayVebrachot = new CourseType('תפילה וברכות')
+    static kashrut = new CourseType('השגחת כשרות')
+    static sviit = new CourseType('שביעית')
+    static shovim = new CourseType('שובי"ם')
+    static tfutzot = new CourseType('רבני תפוצות א`+ב`')
+    static nisuin = new CourseType('רשם נישואין')
     id!: string
-    static getOptions(exclude = [] as CourseType[]) {
+    static getOptions(exclude = [] as CourseType[], allRabanut = false) {
         let options = [] as CourseType[]
         if (!exclude.includes(CourseType.shabat)) {
             options.push(CourseType.shabat)
@@ -45,6 +59,15 @@ export class CourseType {
         }
         if (!exclude.includes(CourseType.evenAezer)) {
             options.push(CourseType.evenAezer)
+        }
+        if(allRabanut){
+         
+        if (!exclude.includes(CourseType.milaVegerut)) {
+            options.push(CourseType.milaVegerut)
+        }
+        if (!exclude.includes(CourseType.prayVebrachot)) {
+            options.push(CourseType.prayVebrachot)
+        }   
         }
 
         return options

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { openDialog } from '@remult/angular';
 import { Remult, ValueListItem } from 'remult';
+import { DialogService } from '../../../common/popup/dialog';
 import { InputAreaComponent } from '../../../common/popup/input-area/input-area.component';
 import { terms } from '../../../terms';
 import { User } from '../../../users/user';
@@ -21,7 +22,7 @@ export class LectureDetailsComponent implements OnInit {
     changed: false
   }
   lectures!: Lecture[]
-  constructor(private remult: Remult, private dialogRef: MatDialogRef<any>) { }
+  constructor(private remult: Remult, private dialog: DialogService, private dialogRef: MatDialogRef<any>) { }
   terms = terms
 
   async ngOnInit(): Promise<void> {
@@ -40,12 +41,15 @@ export class LectureDetailsComponent implements OnInit {
   }
 
   removing = false
-  async remove(lid: string) {
+  async remove(lid: string, lname: string) {
     if (!this.removing) {
       this.removing = true
       if (lid?.length) {
-        await this.remult.repo(Lecture).delete(lid)
-        await this.refresh()
+        let yes = await this.dialog.yesNoQuestion('למחוק את נושא ' + lname + '?')
+        if (yes) {
+          await this.remult.repo(Lecture).delete(lid)
+          await this.refresh()
+        }
       }
       this.removing = false
     }
@@ -73,13 +77,12 @@ export class LectureDetailsComponent implements OnInit {
                 where: { shluch: { $id: this.remult.user.id } }
               })
               let exsitsCourses = exists.map(l => l.course)
-              let all = CourseType.getOptions(exsitsCourses)
+              let all = CourseType.getOptions(exsitsCourses, false)
               return all
             }
           },
           add.$.organizer,
           [
-            add.$.year,
             {
               field: add.$.month,
               click: (row, col) => { },
@@ -97,6 +100,7 @@ export class LectureDetailsComponent implements OnInit {
                 return all
               }
             },
+            add.$.year
           ]
         ]
       },

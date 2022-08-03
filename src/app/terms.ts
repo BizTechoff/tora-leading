@@ -1,7 +1,7 @@
 export const terms = {
+    appVersion: '2022.08.03',
     UserRoleNOTSET:'חובה סוג הרשאה',
     appName: 'מנהיגות תורנית',
-    appVersion: '2022.07.19.1',
     name: 'שם',
     requiredField: 'חובה', 
     uniqueField:'קיים',
